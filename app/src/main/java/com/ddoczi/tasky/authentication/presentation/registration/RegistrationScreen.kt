@@ -22,12 +22,11 @@ import com.ddoczi.tasky.R
 import com.ddoczi.tasky.authentication.enums.InputFieldType
 import com.ddoczi.tasky.authentication.presentation.composables.BaseBackground
 import com.ddoczi.tasky.authentication.presentation.composables.BaseButton
-import com.ddoczi.tasky.authentication.presentation.composables.BaseTextField
+import com.ddoczi.tasky.authentication.presentation.composables.TaskyTextField
 import com.ddoczi.tasky.authentication.presentation.composables.EmailField
 import com.ddoczi.tasky.authentication.presentation.composables.PasswordField
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.TaskyTheme
-
 @Composable
 fun RegistrationScreen(
     viewModel: RegistrationViewModel = RegistrationViewModel()
@@ -45,7 +44,7 @@ fun RegistrationScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BaseTextField(
+            TaskyTextField(
                 modifier = Modifier.fillMaxWidth(),
                 onValueChange = { viewModel.onEvent(RegistrationEvent.OnFullNameChanged(it)) },
                 value = state.fullName,

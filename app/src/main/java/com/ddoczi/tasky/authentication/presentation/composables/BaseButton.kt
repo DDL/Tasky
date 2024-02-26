@@ -19,8 +19,8 @@ fun BaseButton(
     onClick: () -> Unit,
     shape: RoundedCornerShape? = null,
     icon: ImageVector? = null,
-    text: String? = "",
-    contentDescription: String? = "",
+    text: String? = null,
+    contentDescription: String? = null
 ) {
     Button(
         modifier = modifier,

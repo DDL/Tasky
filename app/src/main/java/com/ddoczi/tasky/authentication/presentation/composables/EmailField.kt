@@ -15,7 +15,7 @@ fun EmailField(
     isValid: Boolean,
     showError: Boolean
 ) {
-    BaseTextField(
+    TaskyTextField(
         modifier = modifier,
         onValueChange = onValueChange,
         value = value,

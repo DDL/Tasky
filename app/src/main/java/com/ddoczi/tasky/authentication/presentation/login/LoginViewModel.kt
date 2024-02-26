@@ -18,14 +18,14 @@ class LoginViewModel(): ViewModel() {
                 state = state.copy(
                     email = event.email,
                     isEmailValid = EmailValidator().isEmailValid(event.email),
-                    emailError = false
+                    isEmailError = false
                 )
             }
             is LoginEvent.OnPasswordChanged -> {
                 state = state.copy(
                     password = event.password,
                     isPasswordValid = PasswordValidator().isPasswordValid(event.password),
-                    passwordError = false
+                    isPasswordError = false
                 )
             }
             is LoginEvent.OnPasswordVisibilityToggle -> {
@@ -33,12 +33,12 @@ class LoginViewModel(): ViewModel() {
             }
             is LoginEvent.Login -> {
                 if (!EmailValidator().isEmailValid(state.email)) {
-                    state = state.copy(emailError = true)
+                    state = state.copy(isEmailError = true)
                 }
                 if (!PasswordValidator().isPasswordValid(state.password)) {
-                    state = state.copy(passwordError = true)
+                    state = state.copy(isPasswordError = true)
                 }
-                if (!state.emailError && !state.passwordError) {
+                if (!state.isEmailError && !state.isPasswordError) {
                     submit(state.email, state.password)
                 }
             }

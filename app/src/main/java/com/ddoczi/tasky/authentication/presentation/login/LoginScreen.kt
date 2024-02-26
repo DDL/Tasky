@@ -45,7 +45,7 @@ fun LoginScreen(
                 value = state.email,
                 placeholder = stringResource(id = R.string.placeholder_email_address),
                 isValid = state.isEmailValid,
-                showError = state.emailError
+                showError = state.isEmailError
             )
             Spacer(modifier = Modifier.height(16.dp))
             PasswordField(
@@ -54,7 +54,7 @@ fun LoginScreen(
                 value = state.password,
                 placeholder = stringResource(id = R.string.placeholder_password),
                 isValid = state.isPasswordValid,
-                showError = state.passwordError,
+                showError = state.isPasswordError,
                 onPasswordIconClick = { viewModel.onEvent(LoginEvent.OnPasswordVisibilityToggle) },
                 isTextVisible = state.isPasswordVisible
             )

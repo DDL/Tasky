@@ -17,7 +17,7 @@ import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.Red
 
 @Composable
-fun BaseIcon(
+fun TaskyTextFieldIcon(
     icon: ImageVector?,
     iconColor: Color?,
     contentDescription: String?,
