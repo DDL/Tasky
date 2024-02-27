@@ -21,7 +21,7 @@ import com.ddoczi.tasky.ui.theme.Black
 import com.ddoczi.tasky.ui.theme.White
 
 @Composable
-fun BaseBackground(
+fun TaskyBackground(
     title: String,
     titleWeight: Float,
     contentWeight: Float,
@@ -59,7 +59,7 @@ fun BaseBackground(
 @Composable
 fun BaseBackgroundPreview() {
     TaskyTheme {
-        BaseBackground(
+        TaskyBackground(
             title = stringResource(R.string.registration_title),
             titleWeight = 1.5f,
             contentWeight = 8.5f,

@@ -1,45 +1,46 @@
 package com.ddoczi.tasky.authentication.presentation.login
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.ddoczi.tasky.authentication.domain.EmailValidator
-import com.ddoczi.tasky.authentication.domain.PasswordValidator
+import com.ddoczi.tasky.authentication.domain.AuthDataValidator
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-// TODO add DI and update validation
-class LoginViewModel(): ViewModel() {
-    var state by mutableStateOf(LoginState())
-        private set
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val authDataValidator: AuthDataValidator
+): ViewModel() {
+    private val _state = MutableStateFlow(LoginState())
+    val state = _state.asStateFlow()
 
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.OnEmailChanged -> {
-                state = state.copy(
+                _state.value = _state.value.copy(
                     email = event.email,
-                    isEmailValid = EmailValidator().isEmailValid(event.email),
+                    isEmailValid = authDataValidator.validEmail(event.email),
                     isEmailError = false
                 )
             }
             is LoginEvent.OnPasswordChanged -> {
-                state = state.copy(
+                _state.value = _state.value.copy(
                     password = event.password,
-                    isPasswordValid = PasswordValidator().isPasswordValid(event.password),
                     isPasswordError = false
                 )
             }
             is LoginEvent.OnPasswordVisibilityToggle -> {
-                state = state.copy(isPasswordVisible = !state.isPasswordVisible)
+                _state.value = _state.value.copy(isPasswordVisible = !_state.value.isPasswordVisible)
             }
             is LoginEvent.Login -> {
-                if (!EmailValidator().isEmailValid(state.email)) {
-                    state = state.copy(isEmailError = true)
+                if (!authDataValidator.validEmail(_state.value.email)) {
+                    _state.value = _state.value.copy(isEmailError = true)
                 }
-                if (!PasswordValidator().isPasswordValid(state.password)) {
-                    state = state.copy(isPasswordError = true)
+                if (!authDataValidator.validPassword(_state.value.password)) {
+                    _state.value = _state.value.copy(isPasswordError = true)
                 }
-                if (!state.isEmailError && !state.isPasswordError) {
-                    submit(state.email, state.password)
+                if (!_state.value.isEmailError && !_state.value.isPasswordError) {
+                    submit(_state.value.email, _state.value.password)
                 }
             }
         }

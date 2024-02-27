@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.ddoczi.tasky.ui.theme.TaskyTheme
 
 @Composable
-fun BaseButton(
+fun TaskyButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     shape: RoundedCornerShape? = null,
@@ -44,7 +44,7 @@ fun BaseButton(
 @Composable
 fun BaseButtonPreview() {
     TaskyTheme {
-        BaseButton(
+        TaskyButton(
             modifier = Modifier,
             onClick = { },
             shape = RoundedCornerShape(10.dp),

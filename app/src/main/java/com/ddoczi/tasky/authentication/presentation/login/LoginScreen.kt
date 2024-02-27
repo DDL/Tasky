@@ -15,8 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ddoczi.tasky.R
-import com.ddoczi.tasky.authentication.presentation.composables.BaseBackground
-import com.ddoczi.tasky.authentication.presentation.composables.BaseButton
+import com.ddoczi.tasky.authentication.presentation.composables.TaskyBackground
+import com.ddoczi.tasky.authentication.presentation.composables.TaskyButton
 import com.ddoczi.tasky.authentication.presentation.composables.EmailField
 import com.ddoczi.tasky.authentication.presentation.composables.PasswordField
 import com.ddoczi.tasky.ui.theme.Gray
@@ -24,11 +24,10 @@ import com.ddoczi.tasky.ui.theme.TaskyTheme
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = LoginViewModel()
+    state: LoginState,
+    onEvent: (LoginEvent) -> Unit
 ) {
-    val state = viewModel.state
-
-    BaseBackground(
+    TaskyBackground(
         title = stringResource(R.string.login_title),
         titleWeight = 1.5f,
         contentWeight = 8.5f
@@ -41,7 +40,7 @@ fun LoginScreen(
         ) {
             EmailField(
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { viewModel.onEvent(LoginEvent.OnEmailChanged(it)) },
+                onValueChange = { onEvent(LoginEvent.OnEmailChanged(it)) },
                 value = state.email,
                 placeholder = stringResource(id = R.string.placeholder_email_address),
                 isValid = state.isEmailValid,
@@ -50,19 +49,19 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
             PasswordField(
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { viewModel.onEvent(LoginEvent.OnPasswordChanged(it)) },
+                onValueChange = { onEvent(LoginEvent.OnPasswordChanged(it)) },
                 value = state.password,
                 placeholder = stringResource(id = R.string.placeholder_password),
                 isValid = state.isPasswordValid,
                 showError = state.isPasswordError,
-                onPasswordIconClick = { viewModel.onEvent(LoginEvent.OnPasswordVisibilityToggle) },
+                onPasswordIconClick = { onEvent(LoginEvent.OnPasswordVisibilityToggle) },
                 isTextVisible = state.isPasswordVisible
             )
-            BaseButton(
+            TaskyButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
-                onClick = { viewModel.onEvent(LoginEvent.Login) },
+                onClick = { onEvent(LoginEvent.Login) },
                 text = stringResource(id =R.string.btn_label_log_in)
             )
         }
@@ -85,6 +84,9 @@ fun LoginScreen(
 @Composable
 fun LoginScreenPreview() {
     TaskyTheme {
-        LoginScreen()
+        LoginScreen(
+            state = LoginState(),
+            onEvent = { }
+        )
     }
 }
