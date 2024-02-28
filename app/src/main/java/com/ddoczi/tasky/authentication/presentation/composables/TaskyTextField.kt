@@ -51,7 +51,8 @@ fun TaskyTextField(
                 isValid = isValid,
                 inputFieldType = inputFieldType,
                 hasError = if(inputFieldType == InputFieldType.PASSWORD) showError else false,
-                onIconClick = onIconClick
+                onIconClick = onIconClick,
+                showText = isTextVisible
             )},
         isError = showError,
         visualTransformation = if (isTextVisible) VisualTransformation.None else PasswordVisualTransformation()

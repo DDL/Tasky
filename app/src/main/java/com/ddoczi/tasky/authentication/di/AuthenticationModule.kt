@@ -1,7 +1,7 @@
 package com.ddoczi.tasky.authentication.di
 
 import com.ddoczi.tasky.authentication.domain.AuthDataValidator
-import com.ddoczi.tasky.authentication.domain.EmailValidator
+import com.ddoczi.tasky.core.domain.EmailValidator
 import com.ddoczi.tasky.authentication.domain.FullNameValidator
 import com.ddoczi.tasky.authentication.domain.PasswordValidator
 import dagger.Module
