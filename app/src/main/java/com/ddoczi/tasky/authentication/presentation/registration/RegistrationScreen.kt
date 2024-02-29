@@ -20,21 +20,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ddoczi.tasky.R
 import com.ddoczi.tasky.authentication.enums.InputFieldType
-import com.ddoczi.tasky.authentication.presentation.composables.BaseBackground
-import com.ddoczi.tasky.authentication.presentation.composables.BaseButton
-import com.ddoczi.tasky.authentication.presentation.composables.BaseTextField
+import com.ddoczi.tasky.authentication.presentation.composables.TaskyBackground
+import com.ddoczi.tasky.authentication.presentation.composables.TaskyButton
+import com.ddoczi.tasky.authentication.presentation.composables.TaskyTextField
 import com.ddoczi.tasky.authentication.presentation.composables.EmailField
 import com.ddoczi.tasky.authentication.presentation.composables.PasswordField
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.TaskyTheme
-
 @Composable
 fun RegistrationScreen(
-    viewModel: RegistrationViewModel = RegistrationViewModel()
+    state: RegistrationState,
+    onEvent: (RegistrationEvent) -> Unit
 ) {
-    val state = viewModel.state
-
-    BaseBackground(
+    TaskyBackground(
         title = stringResource(R.string.registration_title),
         titleWeight = 1.5f,
         contentWeight = 8.5f
@@ -45,9 +43,9 @@ fun RegistrationScreen(
                 .padding(start = 20.dp, end = 20.dp, top = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            BaseTextField(
+            TaskyTextField(
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { viewModel.onEvent(RegistrationEvent.OnFullNameChanged(it)) },
+                onValueChange = { onEvent(RegistrationEvent.OnFullNameChanged(it)) },
                 value = state.fullName,
                 placeholder = stringResource(R.string.placeholder_name),
                 keyboardType = KeyboardType.Text,
@@ -60,7 +58,7 @@ fun RegistrationScreen(
             Spacer(modifier = Modifier.height(16.dp))
             EmailField(
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { viewModel.onEvent(RegistrationEvent.OnEmailChanged(it)) },
+                onValueChange = { onEvent(RegistrationEvent.OnEmailChanged(it)) },
                 value = state.email,
                 placeholder = stringResource(R.string.placeholder_email_address),
                 isValid = state.isEmailValid,
@@ -69,20 +67,20 @@ fun RegistrationScreen(
             Spacer(modifier = Modifier.height(16.dp))
             PasswordField(
                 modifier = Modifier.fillMaxWidth(),
-                onValueChange = { viewModel.onEvent(RegistrationEvent.OnPasswordChanged(it)) },
+                onValueChange = { onEvent(RegistrationEvent.OnPasswordChanged(it)) },
                 value = state.password,
                 placeholder = stringResource(R.string.placeholder_password),
                 isValid = state.isPasswordValid,
                 showError = state.passwordError,
-                onPasswordIconClick = { viewModel.onEvent(RegistrationEvent.OnPasswordVisibilityToggle) },
+                onPasswordIconClick = { onEvent(RegistrationEvent.OnPasswordVisibilityToggle) },
                 isTextVisible = state.isPasswordVisible
             )
             Spacer(modifier = Modifier.height(16.dp))
-            BaseButton(
+            TaskyButton(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, bottom = 16.dp),
-                onClick = { viewModel.onEvent(RegistrationEvent.Register) },
+                onClick = { onEvent(RegistrationEvent.Register) },
                 text = stringResource(R.string.btn_label_get_started)
             )
         }
@@ -93,7 +91,7 @@ fun RegistrationScreen(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.Bottom
         ) {
-            BaseButton(
+            TaskyButton(
                 onClick = { /*TODO navigate to login screen*/ },
                 shape = RoundedCornerShape(10.dp),
                 icon = Icons.Default.ArrowBackIosNew,
@@ -107,6 +105,9 @@ fun RegistrationScreen(
 @Composable
 fun RegistrationScreenPreview() {
     TaskyTheme {
-        RegistrationScreen()
+        RegistrationScreen(
+            state = RegistrationState(),
+            onEvent = { }
+        )
     }
 }

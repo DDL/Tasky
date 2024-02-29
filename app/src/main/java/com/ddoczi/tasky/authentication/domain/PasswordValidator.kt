@@ -1,10 +1,12 @@
 package com.ddoczi.tasky.authentication.domain
 
 class PasswordValidator {
-    fun isPasswordValid(password: String): Boolean {
-        return password.length >= 9 &&
-                password.contains(Regex(".*[A-Z].*")) &&
-                password.contains(Regex(".*[a-z].*")) &&
-                password.contains(Regex(".*\\d.*"))
+    operator fun invoke(password: String): Boolean {
+        val hasLowerCase = password.any { it.isLowerCase() }
+        val hasUpperCase = password.any { it.isUpperCase() }
+        val hasDigit = password.any { it.isDigit() }
+        val hasValidLength = password.length >= 9
+
+        return hasLowerCase && hasUpperCase && hasDigit && hasValidLength
     }
 }

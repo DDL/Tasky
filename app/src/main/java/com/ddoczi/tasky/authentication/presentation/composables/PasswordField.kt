@@ -17,7 +17,7 @@ fun PasswordField(
     onPasswordIconClick: () -> Unit,
     isTextVisible: Boolean = true,
 ){
-    BaseTextField(
+    TaskyTextField(
         modifier = modifier,
         onValueChange = onValueChange,
         value = value,

@@ -11,12 +11,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import com.ddoczi.tasky.authentication.enums.InputFieldType
-import com.ddoczi.tasky.ui.theme.TaskyTheme
 
 @Composable
-fun BaseTextField(
+fun TaskyTextField(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
     value: String,
@@ -46,14 +44,15 @@ fun BaseTextField(
             imeAction = imeAction
         ),
         trailingIcon = {
-            BaseIcon(
+            TaskyTextFieldIcon(
                 icon = icon,
                 iconColor = iconColor,
                 contentDescription = contentDescription,
                 isValid = isValid,
                 inputFieldType = inputFieldType,
                 hasError = if(inputFieldType == InputFieldType.PASSWORD) showError else false,
-                onIconClick = onIconClick
+                onIconClick = onIconClick,
+                showText = isTextVisible
             )},
         isError = showError,
         visualTransformation = if (isTextVisible) VisualTransformation.None else PasswordVisualTransformation()
