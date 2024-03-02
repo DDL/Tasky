@@ -30,7 +30,8 @@ import com.ddoczi.tasky.ui.theme.TaskyTheme
 @Composable
 fun RegistrationScreen(
     state: RegistrationState,
-    onEvent: (RegistrationEvent) -> Unit
+    onEvent: (RegistrationEvent) -> Unit,
+    onNavigateBack: () -> Unit
 ) {
     TaskyBackground(
         title = stringResource(R.string.registration_title),
@@ -92,7 +93,7 @@ fun RegistrationScreen(
             verticalAlignment = Alignment.Bottom
         ) {
             TaskyButton(
-                onClick = { /*TODO navigate to login screen*/ },
+                onClick = onNavigateBack,
                 shape = RoundedCornerShape(10.dp),
                 icon = Icons.Default.ArrowBackIosNew,
                 contentDescription = stringResource(R.string.content_desc_back_to_login_button)
@@ -107,7 +108,8 @@ fun RegistrationScreenPreview() {
     TaskyTheme {
         RegistrationScreen(
             state = RegistrationState(),
-            onEvent = { }
+            onEvent = { },
+            onNavigateBack = { }
         )
     }
 }

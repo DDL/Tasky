@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,8 @@ import com.ddoczi.tasky.ui.theme.TaskyTheme
 @Composable
 fun LoginScreen(
     state: LoginState,
-    onEvent: (LoginEvent) -> Unit
+    onEvent: (LoginEvent) -> Unit,
+    onSignUpClick: () -> Unit
 ) {
     TaskyBackground(
         title = stringResource(R.string.login_title),
@@ -72,10 +74,15 @@ fun LoginScreen(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Bottom,
         ) {
-            Text(
-                text = stringResource(R.string.link_to_sign_up),
-                color = Gray
-            )
+            TextButton(
+                onClick = onSignUpClick )
+            {
+                Text(
+                    text = stringResource(R.string.link_to_sign_up),
+                    color = Gray
+                )
+            }
+
         }
     }
 }
@@ -86,7 +93,8 @@ fun LoginScreenPreview() {
     TaskyTheme {
         LoginScreen(
             state = LoginState(),
-            onEvent = { }
+            onEvent = { },
+            onSignUpClick = { }
         )
     }
 }
