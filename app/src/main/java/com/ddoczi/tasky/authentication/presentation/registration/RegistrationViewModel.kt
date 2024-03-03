@@ -1,15 +1,19 @@
 package com.ddoczi.tasky.authentication.presentation.registration
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ddoczi.tasky.authentication.domain.AuthDataValidator
+import com.ddoczi.tasky.core.domain.reposotory.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
+    private val repository: AuthenticationRepository,
     private val authDataValidator: AuthDataValidator
 ): ViewModel() {
     private val _state = MutableStateFlow(RegistrationState())
@@ -49,7 +53,7 @@ class RegistrationViewModel @Inject constructor(
                     it.copy(isPasswordVisible = !it.isPasswordVisible)
                 }
             }
-            is RegistrationEvent.Register -> {
+            is RegistrationEvent.Submit -> {
                 if(!authDataValidator.validFullName(_state.value.fullName)) {
                     _state.update {
                         it.copy(fullNameError = true)
@@ -73,6 +77,10 @@ class RegistrationViewModel @Inject constructor(
         }
     }
     private fun submit(fullName: String, email: String, password: String) {
-        // TODO
+        viewModelScope.launch {
+            repository.register(fullName, email, password)
+                .onSuccess { println(it) }
+                .onFailure { println(it) }
+        }
     }
 }

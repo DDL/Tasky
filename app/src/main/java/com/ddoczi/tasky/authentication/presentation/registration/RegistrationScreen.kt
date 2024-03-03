@@ -80,7 +80,7 @@ fun RegistrationScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, bottom = 16.dp),
-                onClick = { onEvent(RegistrationEvent.Register) },
+                onClick = { onEvent(RegistrationEvent.Submit) },
                 text = stringResource(R.string.btn_label_get_started)
             )
         }

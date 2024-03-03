@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -23,6 +25,11 @@ android {
             useSupportLibrary = true
         }
     }
+    val apiKey = gradleLocalProperties(rootDir).getProperty("API_KEY")
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildTypes {
         release {
@@ -31,6 +38,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        }
+        release {
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
         }
     }
     compileOptions {
@@ -81,4 +94,8 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:2.50")
     ksp("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation( "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
 }
