@@ -26,8 +26,7 @@ import com.ddoczi.tasky.ui.theme.TaskyTheme
 @Composable
 fun LoginScreen(
     state: LoginState,
-    onEvent: (LoginEvent) -> Unit,
-    onSignUpClick: () -> Unit
+    onEvent: (LoginEvent) -> Unit
 ) {
     TaskyBackground(
         title = stringResource(R.string.login_title),
@@ -75,8 +74,8 @@ fun LoginScreen(
             verticalAlignment = Alignment.Bottom,
         ) {
             TextButton(
-                onClick = onSignUpClick )
-            {
+                onClick = { onEvent(LoginEvent.OnSignUpClick) }
+            ){
                 Text(
                     text = stringResource(R.string.link_to_sign_up),
                     color = Gray
@@ -93,8 +92,7 @@ fun LoginScreenPreview() {
     TaskyTheme {
         LoginScreen(
             state = LoginState(),
-            onEvent = { },
-            onSignUpClick = { }
+            onEvent = { }
         )
     }
 }
