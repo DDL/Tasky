@@ -26,4 +26,14 @@ class AuthenticationRepositoryImpl(
             Result.failure(e)
         }
     }
+
+    override suspend fun authenticate(): Result<Unit> {
+        return try {
+            authenticationApi.authenticate()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            Result.failure(e)
+        }
+    }
 }
