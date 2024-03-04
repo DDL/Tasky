@@ -53,8 +53,9 @@ fun TaskyMainScreen(
                 onEvent = { event ->
                     when(event) {
                         is LoginEvent.OnSignUpClick -> { navController.navigate(Route.REGISTRATION) }
-                        else -> { viewModel.onEvent(event) }
+                        else -> { Unit }
                     }
+                    viewModel.onEvent(event)
                 }
             )
         }
@@ -66,8 +67,9 @@ fun TaskyMainScreen(
                 onEvent = { event ->
                     when(event) {
                         is RegistrationEvent.OnNavigateBack -> { navController.navigateUp() }
-                        else -> { viewModel.onEvent(event) }
+                        else -> { Unit }
                     }
+                    viewModel.onEvent(event)
                 }
             )
         }

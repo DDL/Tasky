@@ -73,7 +73,7 @@ class RegistrationViewModel @Inject constructor(
                     submit(_state.value.fullName, _state.value.email, _state.value.password)
                 }
             }
-            else -> {}
+            else -> { Unit }
         }
     }
     private fun submit(fullName: String, email: String, password: String) {

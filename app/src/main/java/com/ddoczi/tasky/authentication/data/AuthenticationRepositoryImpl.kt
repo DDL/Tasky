@@ -3,6 +3,7 @@ package com.ddoczi.tasky.authentication.data
 import com.ddoczi.tasky.authentication.data.remote.RegistrationBodyDTO
 import com.ddoczi.tasky.core.data.remote.AuthenticationApi
 import com.ddoczi.tasky.core.domain.reposotory.AuthenticationRepository
+import kotlin.coroutines.cancellation.CancellationException
 
 class AuthenticationRepositoryImpl(
     private val authenticationApi: AuthenticationApi
@@ -21,6 +22,7 @@ class AuthenticationRepositoryImpl(
             authenticationApi.register(body)
             Result.success(Unit)
         } catch (e: Exception) {
+            if (e is CancellationException) throw e
             Result.failure(e)
         }
     }
