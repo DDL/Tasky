@@ -55,7 +55,7 @@ class LoginViewModel @Inject constructor(
                     submit(_state.value.email, _state.value.password)
                 }
             }
-            else -> {}
+            else -> { Unit }
         }
     }
 

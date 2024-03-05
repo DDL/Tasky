@@ -1,13 +1,13 @@
-package com.ddoczi.tasky
+package com.ddoczi.tasky.core.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -25,8 +25,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val viewModel : MainViewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Testing the authentication
+        println(viewModel.state.value)
         setContent {
             TaskyTheme {
                 val navController = rememberNavController()
@@ -53,8 +56,9 @@ fun TaskyMainScreen(
                 onEvent = { event ->
                     when(event) {
                         is LoginEvent.OnSignUpClick -> { navController.navigate(Route.REGISTRATION) }
-                        else -> { viewModel.onEvent(event) }
+                        else -> { Unit }
                     }
+                    viewModel.onEvent(event)
                 }
             )
         }
@@ -66,8 +70,9 @@ fun TaskyMainScreen(
                 onEvent = { event ->
                     when(event) {
                         is RegistrationEvent.OnNavigateBack -> { navController.navigateUp() }
-                        else -> { viewModel.onEvent(event) }
+                        else -> { Unit }
                     }
+                    viewModel.onEvent(event)
                 }
             )
         }
