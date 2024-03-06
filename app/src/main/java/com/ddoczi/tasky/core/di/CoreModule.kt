@@ -1,11 +1,18 @@
 package com.ddoczi.tasky.core.di
 
+import android.app.Application
+import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.ddoczi.tasky.authentication.data.AuthenticationRepositoryImpl
 import com.ddoczi.tasky.core.data.EmailMatcherImpl
-import com.ddoczi.tasky.core.data.remote.ApiKeyInterceptor
+import com.ddoczi.tasky.core.data.preferences.TaskyPreferences
+import com.ddoczi.tasky.core.data.remote.interceptors.ApiKeyInterceptor
 import com.ddoczi.tasky.core.data.remote.AuthenticationApi
+import com.ddoczi.tasky.core.data.remote.interceptors.JwtInterceptor
 import com.ddoczi.tasky.core.domain.EmailMatcher
 import com.ddoczi.tasky.core.domain.EmailValidator
+import com.ddoczi.tasky.core.domain.preferences.Preferences
 import com.ddoczi.tasky.core.domain.reposotory.AuthenticationRepository
 import dagger.Module
 import dagger.Provides
@@ -21,10 +28,28 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object CoreModule {
+    @Provides
+    @Singleton
+    fun providePreferences(sharedPreferences: SharedPreferences): Preferences {
+        return TaskyPreferences(sharedPreferences)
+    }
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideEncryptedSharedPreferences(app: Application): SharedPreferences {
+        val masterKey = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+        return EncryptedSharedPreferences.create(
+            "encrypted_shared_prefs",
+            masterKey,
+            app.applicationContext,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(preferences: Preferences): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
@@ -32,6 +57,7 @@ object CoreModule {
                 }
             )
             .addInterceptor(ApiKeyInterceptor())
+            .addInterceptor(JwtInterceptor(preferences))
             .build()
     }
 
