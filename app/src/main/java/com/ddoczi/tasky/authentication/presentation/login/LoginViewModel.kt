@@ -1,16 +1,22 @@
 package com.ddoczi.tasky.authentication.presentation.login
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ddoczi.tasky.authentication.domain.AuthDataValidator
+import com.ddoczi.tasky.core.domain.preferences.Preferences
+import com.ddoczi.tasky.core.domain.reposotory.AuthenticationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authDataValidator: AuthDataValidator
+    private val repository: AuthenticationRepository,
+    private val authDataValidator: AuthDataValidator,
+    private val preferences: Preferences
 ): ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state = _state.asStateFlow()
@@ -60,6 +66,20 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun submit(email: String, password: String) {
-        // TODO
+        viewModelScope.launch {
+            repository.login(email, password)
+                .onSuccess {
+                    println(it)
+                    preferences.saveToken(it.token)
+                    preferences.saveFullName(it.fullName)
+                    preferences.saveUserId(it.userId)
+                    _state.update { state ->
+                        state.copy(isLoggedIn = true)
+                    }
+                }
+                .onFailure {
+                    println(it)
+                }
+        }
     }
 }

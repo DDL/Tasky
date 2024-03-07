@@ -1,11 +1,10 @@
 package com.ddoczi.tasky.di
 
+import com.ddoczi.tasky.util.DispatcherProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -13,7 +12,5 @@ import javax.inject.Singleton
 object MainModule {
     @Provides
     @Singleton
-    fun provideCoroutineDispatcher() : CoroutineDispatcher {
-        return Dispatchers.IO
-    }
+    fun provideCoroutineDispatcher() = DispatcherProviderImpl()
 }

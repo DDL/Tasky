@@ -1,4 +1,4 @@
-package com.ddoczi.tasky.core.data.remote
+package com.ddoczi.tasky.core.data.remote.interceptors
 
 import okhttp3.Interceptor
 import okhttp3.Response

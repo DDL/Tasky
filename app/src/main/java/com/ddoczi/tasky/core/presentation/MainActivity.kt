@@ -25,11 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel : MainViewModel by viewModels<MainViewModel>()
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Testing the authentication
-        println(viewModel.state.value)
         setContent {
             TaskyTheme {
                 val navController = rememberNavController()
