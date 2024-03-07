@@ -3,9 +3,7 @@ package com.ddoczi.tasky.core.domain.preferences
 import com.ddoczi.tasky.core.domain.model.LoggedInUser
 
 interface Preferences {
-    fun saveToken(token: String)
-    fun saveFullName(fullName: String)
-    fun saveUserId(userId: String)
+    fun saveLoggedInUser(loggedInUser: LoggedInUser)
     fun loadLoggedInUser() : LoggedInUser?
     fun deleteUser()
 
