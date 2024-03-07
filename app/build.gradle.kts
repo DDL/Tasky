@@ -1,6 +1,12 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("dagger.hilt.android.plugin")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -19,6 +25,11 @@ android {
             useSupportLibrary = true
         }
     }
+    val apiKey = gradleLocalProperties(rootDir).getProperty("API_KEY")
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     buildTypes {
         release {
@@ -27,6 +38,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        }
+        release {
+            buildConfigField("String", "API_KEY", "\"$apiKey\"")
         }
     }
     compileOptions {
@@ -66,4 +83,21 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
+
+    implementation("androidx.compose.material:material-icons-extended-android:1.6.2")
+
+    implementation("androidx.hilt:hilt-common:1.2.0")
+    implementation("com.google.dagger:hilt-android:2.50")
+    ksp("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-compiler:2.50")
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation( "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
+
+    implementation("androidx.security:security-crypto:1.0.0")
 }
