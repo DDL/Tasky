@@ -22,7 +22,7 @@ import com.ddoczi.tasky.ui.theme.White
 
 @Composable
 fun TaskyBackground(
-    title: String,
+    title: String? = null,
     titleWeight: Float,
     contentWeight: Float,
     content: @Composable () -> Unit
@@ -38,7 +38,7 @@ fun TaskyBackground(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = title,
+                    text = title?: "",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = White)

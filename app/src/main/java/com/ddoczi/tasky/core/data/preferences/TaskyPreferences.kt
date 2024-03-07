@@ -8,12 +8,11 @@ class TaskyPreferences(
     private val sharedPreferences: SharedPreferences
 ) : Preferences {
     override fun saveLoggedInUser(loggedInUser: LoggedInUser) {
-        sharedPreferences.edit().apply {
-            putString(Preferences.TOKEN_KEY, loggedInUser.token)
-            putString(Preferences.FULL_NAME_KEY, loggedInUser.fullName)
-            putString(Preferences.USER_ID_KEY, loggedInUser.userId)
-            apply()
-        }
+        sharedPreferences.edit()
+            .putString(Preferences.TOKEN_KEY, loggedInUser.token)
+            .putString(Preferences.FULL_NAME_KEY, loggedInUser.fullName)
+            .putString(Preferences.USER_ID_KEY, loggedInUser.userId)
+            .apply()
     }
 
     override fun loadLoggedInUser(): LoggedInUser? {
