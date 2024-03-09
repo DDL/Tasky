@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ddoczi.tasky.R
-import com.ddoczi.tasky.authentication.presentation.composables.TaskyBackground
-import com.ddoczi.tasky.authentication.presentation.composables.TaskyButton
+import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
+import com.ddoczi.tasky.core.presentation.composables.TaskyButton
 import com.ddoczi.tasky.authentication.presentation.composables.EmailField
 import com.ddoczi.tasky.authentication.presentation.composables.PasswordField
 import com.ddoczi.tasky.ui.theme.Gray

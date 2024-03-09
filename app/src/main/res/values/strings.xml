@@ -12,4 +12,5 @@
     <string name="content_desc_full_name_valid_icon">Full name valid icon</string>
     <string name="content_desc_email_valid_icon">Email valid icon</string>
     <string name="content_desc_show_hide_password_icon">Show/Hide Password icon</string>
+    <string name="month_picker_dropdown_icon">Month Picker Dropdown Icon</string>
 </resources>

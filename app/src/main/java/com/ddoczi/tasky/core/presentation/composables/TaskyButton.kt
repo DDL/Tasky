@@ -1,4 +1,4 @@
-package com.ddoczi.tasky.authentication.presentation.composables
+package com.ddoczi.tasky.core.presentation.composables
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
