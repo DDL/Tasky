@@ -12,5 +12,5 @@ import javax.inject.Singleton
 object MainModule {
     @Provides
     @Singleton
-    fun provideCoroutineDispatcher() = DispatcherProviderImpl()
+    fun provideCoroutineDispatcher() = DispatcherProviderImpl
 }

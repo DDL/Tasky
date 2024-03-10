@@ -1,4 +1,4 @@
-package com.ddoczi.tasky.authentication.presentation.composables
+package com.ddoczi.tasky.core.presentation.composables
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
@@ -53,7 +53,8 @@ fun TaskyTextField(
                 hasError = if(inputFieldType == InputFieldType.PASSWORD) showError else false,
                 onIconClick = onIconClick,
                 showText = isTextVisible
-            )},
+            )
+        },
         isError = showError,
         visualTransformation = if (isTextVisible) VisualTransformation.None else PasswordVisualTransformation()
     )

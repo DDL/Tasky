@@ -13,6 +13,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ddoczi.tasky.agenda.presentation.home.HomeScreen
+import com.ddoczi.tasky.agenda.presentation.home.HomeViewModel
 import com.ddoczi.tasky.authentication.presentation.login.LoginEvent
 import com.ddoczi.tasky.authentication.presentation.login.LoginScreen
 import com.ddoczi.tasky.authentication.presentation.login.LoginViewModel
@@ -29,9 +31,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val startDestination = viewModel.state.collectAsStateWithLifecycle().value.isLoggedIn.let { if (it) Route.HOME else Route.LOGIN }
             TaskyTheme {
                 val navController = rememberNavController()
-                TaskyMainScreen(navController, Route.LOGIN)
+                TaskyMainScreen(navController, startDestination)
             }
         }
     }
@@ -72,6 +75,14 @@ fun TaskyMainScreen(
                     }
                     viewModel.onEvent(event)
                 }
+            )
+        }
+        composable(Route.HOME) {
+            val viewModel = hiltViewModel<HomeViewModel>()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            HomeScreen(
+                state = state,
+                onEvent = { event -> viewModel.onEvent(event) }
             )
         }
     }

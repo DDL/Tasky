@@ -1,4 +1,4 @@
-package com.ddoczi.tasky.authentication.presentation.composables
+package com.ddoczi.tasky.core.presentation.composables
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,21 +10,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ddoczi.tasky.R
 import com.ddoczi.tasky.ui.theme.TaskyTheme
 import com.ddoczi.tasky.ui.theme.Black
 import com.ddoczi.tasky.ui.theme.White
 
 @Composable
 fun TaskyBackground(
-    title: String,
+    title: String? = null,
     titleWeight: Float,
     contentWeight: Float,
+    header: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     Surface(
@@ -32,16 +31,25 @@ fun TaskyBackground(
     color = Black
     ) {
         Column(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .weight(titleWeight),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = title,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = White)
+            if (title != null) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .weight(titleWeight),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = title?: "",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = White)
+                }
+            }
+            else if(header != null) {
+                Box(Modifier
+                    .fillMaxSize()
+                    .weight(titleWeight)) {
+                    header()
+                }
             }
             Surface(modifier = Modifier
                 .fillMaxSize()
@@ -60,7 +68,7 @@ fun TaskyBackground(
 fun BaseBackgroundPreview() {
     TaskyTheme {
         TaskyBackground(
-            title = stringResource(R.string.registration_title),
+            //title = stringResource(R.string.registration_title),
             titleWeight = 1.5f,
             contentWeight = 8.5f,
             content = {
@@ -69,6 +77,14 @@ fun BaseBackgroundPreview() {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(text = "Test content")
+                }
+            },
+            header = {
+                Box(modifier = Modifier
+                    .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Test header")
                 }
             }
         )

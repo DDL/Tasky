@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId = "com.ddoczi.tasky"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -100,4 +100,6 @@ dependencies {
     implementation( "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.12")
 
     implementation("androidx.security:security-crypto:1.0.0")
+
+    implementation("io.github.vanpra.compose-material-dialogs:core:0.9.0")
 }

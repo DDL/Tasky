@@ -70,9 +70,7 @@ class LoginViewModel @Inject constructor(
             repository.login(email, password)
                 .onSuccess {
                     println(it)
-                    preferences.saveToken(it.token)
-                    preferences.saveFullName(it.fullName)
-                    preferences.saveUserId(it.userId)
+                    preferences.saveLoggedInUser(it)
                     _state.update { state ->
                         state.copy(isLoggedIn = true)
                     }

@@ -7,16 +7,12 @@ import com.ddoczi.tasky.core.domain.preferences.Preferences
 class TaskyPreferences(
     private val sharedPreferences: SharedPreferences
 ) : Preferences {
-    override fun saveToken(token: String) {
-        sharedPreferences.edit().putString(Preferences.TOKEN_KEY, token).apply()
-    }
-
-    override fun saveFullName(fullName: String) {
-        sharedPreferences.edit().putString(Preferences.FULL_NAME_KEY, fullName).apply()
-    }
-
-    override fun saveUserId(userId: String) {
-        sharedPreferences.edit().putString(Preferences.USER_ID_KEY, userId).apply()
+    override fun saveLoggedInUser(loggedInUser: LoggedInUser) {
+        sharedPreferences.edit()
+            .putString(Preferences.TOKEN_KEY, loggedInUser.token)
+            .putString(Preferences.FULL_NAME_KEY, loggedInUser.fullName)
+            .putString(Preferences.USER_ID_KEY, loggedInUser.userId)
+            .apply()
     }
 
     override fun loadLoggedInUser(): LoggedInUser? {
