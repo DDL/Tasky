@@ -101,5 +101,5 @@ dependencies {
 
     implementation("androidx.security:security-crypto:1.0.0")
 
-    implementation("io.github.vanpra.compose-material-dialogs:core:0.9.0")
+    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
 }

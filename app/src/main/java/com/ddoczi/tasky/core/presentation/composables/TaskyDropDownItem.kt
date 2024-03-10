@@ -12,9 +12,9 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TaskyDropdownItem(
+    modifier: Modifier = Modifier,
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier.fillMaxWidth().clickable {

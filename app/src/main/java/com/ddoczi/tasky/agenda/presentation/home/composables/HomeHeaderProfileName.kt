@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.ui.theme.Light
@@ -16,9 +17,9 @@ import com.ddoczi.tasky.ui.theme.LightBlue
 
 @Composable
 fun HomeHeaderProfileName(
+    modifier: Modifier = Modifier,
     name: String,
     onProfileClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
@@ -33,4 +34,13 @@ fun HomeHeaderProfileName(
             fontWeight = FontWeight.SemiBold
         )
     }
+}
+
+@Preview
+@Composable
+fun HomeHeaderProfileNamePreview() {
+    HomeHeaderProfileName(
+        name = "DD",
+        onProfileClick = {}
+    )
 }
