@@ -13,4 +13,6 @@
     <string name="content_desc_email_valid_icon">Email valid icon</string>
     <string name="content_desc_show_hide_password_icon">Show/Hide Password icon</string>
     <string name="month_picker_dropdown_icon">Month Picker Dropdown Icon</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

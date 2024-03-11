@@ -4,16 +4,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ddoczi.tasky.R
 import com.ddoczi.tasky.agenda.presentation.home.composables.HomeDayPicker
 import com.ddoczi.tasky.agenda.presentation.home.composables.HomeHeader
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
@@ -35,8 +40,8 @@ fun HomeScreen(
     MaterialDialog(
         dialogState = datePickerState,
         buttons = {
-            positiveButton("Ok")
-            negativeButton("Cancel")
+            positiveButton(stringResource(R.string.ok))
+            negativeButton(stringResource(R.string.cancel))
         }
     ) {
         datepicker { date ->
@@ -83,7 +88,11 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 16.dp)
             )
             Spacer(modifier = Modifier.height(24.dp))
-            //LazyColumn
+            LazyColumn(modifier = Modifier.fillMaxWidth()){
+                items(state.agendaItems) {
+                    //create HomeAgendaItem composable
+                }
+            }
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
                 TaskyButton(text = "+", onClick = {})
                 TaskyDropdown(

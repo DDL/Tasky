@@ -36,6 +36,10 @@ class HomeViewModel @Inject constructor(
                     it.copy(selectedDay = event.day)
                 }
             }
+            is HomeEvent.OnItemClick -> { Unit }
+            is HomeEvent.OnItemOptionsClick -> { Unit }
+            is HomeEvent.OnItemOptionsDismiss -> { Unit }
+            is HomeEvent.OnAddAgendaClick -> { Unit }
         }
     }
 }
