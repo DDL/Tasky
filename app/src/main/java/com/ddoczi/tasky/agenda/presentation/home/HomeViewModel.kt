@@ -26,6 +26,16 @@ class HomeViewModel @Inject constructor(
                     it.copy(showLogout = false)
                 }
             }
+            is HomeEvent.OnDateSelected -> {
+                _state.update {
+                    it.copy(currentDate = event.date)
+                }
+            }
+            is HomeEvent.OnDaySelected -> {
+                _state.update {
+                    it.copy(selectedDay = event.day)
+                }
+            }
         }
     }
 }

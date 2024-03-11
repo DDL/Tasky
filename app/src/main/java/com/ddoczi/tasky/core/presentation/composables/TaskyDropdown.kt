@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun TaskyDropdown(
+    modifier: Modifier = Modifier,
     items: List<String>,
     onItemSelected: (Int) -> Unit,
     showDropdown: Boolean,
-    onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    onDismiss: () -> Unit
 ) {
     Column(modifier = modifier) {
         DropdownMenu(expanded = showDropdown, onDismissRequest = {
