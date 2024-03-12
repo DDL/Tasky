@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(
 
     fun onEvent(event: HomeEvent) {
         when (event) {
-            is HomeEvent.OnLogOut -> {
+            is HomeEvent.OnLogOutClick -> {
                 _state.update {
                     it.copy(showLogout = true)
                 }
@@ -37,9 +37,31 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeEvent.OnItemClick -> { Unit }
-            is HomeEvent.OnItemOptionsClick -> { Unit }
-            is HomeEvent.OnItemOptionsDismiss -> { Unit }
-            is HomeEvent.OnAddAgendaClick -> { Unit }
+            is HomeEvent.OnItemOptionsClick -> {
+                _state.update {
+                    it.copy(
+                        selectedAgendaItem = event.agendaItem,
+                        showItemOptions = true
+                    )
+                }
+            }
+            is HomeEvent.OnItemOptionsDismiss -> {
+                _state.update {
+                    it.copy(showItemOptions = false)
+                }
+            }
+            is HomeEvent.OnAddAgendaClick -> {
+                _state.update {
+                    it.copy(showAgendaOptions = true)
+                }
+            }
+            is HomeEvent.OnAgendaItemDismiss -> {
+                _state.update {
+                    it.copy(showAgendaOptions = false)
+                }
+            }
+            is HomeEvent.OnRefreshAgenda -> { Unit }
+            is HomeEvent.OnDeleteItem -> { Unit }
         }
     }
 }

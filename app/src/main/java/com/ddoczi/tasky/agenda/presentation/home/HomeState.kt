@@ -17,5 +17,7 @@ data class HomeState(
     ),
     val selectedAgendaType: HomeAgendaType? = null,
     val selectedAgendaItem: AgendaItem? = null,
+    val showAgendaOptions: Boolean = false,
+    val showItemOptions: Boolean = false,
 )
 

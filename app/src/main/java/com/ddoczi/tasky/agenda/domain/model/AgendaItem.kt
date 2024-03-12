@@ -30,7 +30,8 @@ sealed class AgendaItem(
         val taskTitle: String,
         val taskDescription: String,
         val taskDate: LocalDate,
-        val taskRemindAt: LocalDateTime
+        val taskRemindAt: LocalDateTime,
+        val isDone: Boolean
     ) : AgendaItem(
         agendaItemId = taskId,
         title = taskTitle,
