@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -33,10 +32,7 @@ import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.ui.theme.Black
 import com.ddoczi.tasky.ui.theme.Green
-import com.ddoczi.tasky.ui.theme.Light
-import com.ddoczi.tasky.ui.theme.LightGreen
 import com.ddoczi.tasky.ui.theme.White
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Composable
@@ -119,7 +115,7 @@ fun HomeAgendaItemPreview() {
             taskId = "1",
             taskTitle = "Task 1",
             taskDescription = "Task 1 description",
-            taskDate = LocalDate.now(),
+            taskDate = LocalDateTime.now(),
             taskRemindAt = LocalDateTime.now(),
             isDone = true
         ),
