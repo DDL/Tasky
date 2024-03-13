@@ -38,7 +38,7 @@ fun TaskyBackground(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = title?: "",
+                        text = title,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         color = White)
