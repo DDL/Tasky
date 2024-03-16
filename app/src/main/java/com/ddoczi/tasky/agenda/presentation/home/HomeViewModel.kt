@@ -16,10 +16,6 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
-
-    //TODO
-    // add sync with db
-    // add missing event handling
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnLogOutClick -> {
@@ -67,15 +63,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeEvent.OnRefreshAgenda -> { Unit }
-            is HomeEvent.OnDeleteItem -> {
-                viewModelScope.launch {
-                    when(event.agendaItem) {
-                        is AgendaItem.Event -> {}
-                        is AgendaItem.Reminder -> {}
-                        is AgendaItem.Task -> {}
-                    }
-                }
-            }
+            is HomeEvent.OnDeleteItem -> { Unit }
         }
     }
 }

@@ -46,14 +46,6 @@ fun HomeScreen(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
-    // TODO
-    //  check if user is logged in
-    //  refresh agendas
-    //  add logout function
-    //  add profile name from user full name
-    //  add option items
-    //  add agenda types
-
     val datePickerState = rememberMaterialDialogState()
     MaterialDialog(
         dialogState = datePickerState,
