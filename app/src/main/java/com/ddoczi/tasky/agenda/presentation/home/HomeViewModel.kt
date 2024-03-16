@@ -14,6 +14,9 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
+    //TODO
+    // add sync with db
+    // add missing event handling
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnLogOutClick -> {

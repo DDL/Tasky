@@ -13,10 +13,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,10 +29,12 @@ import com.ddoczi.tasky.agenda.presentation.home.composables.HomeHeader
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
 import com.ddoczi.tasky.core.presentation.composables.TaskyButton
 import com.ddoczi.tasky.core.presentation.composables.TaskyDropdown
+import com.ddoczi.tasky.ui.theme.Black
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.Light
 import com.ddoczi.tasky.ui.theme.LightGreen
 import com.ddoczi.tasky.ui.theme.TaskyTheme
+import com.ddoczi.tasky.ui.theme.datePickerColors
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -44,15 +46,31 @@ fun HomeScreen(
     state: HomeState,
     onEvent: (HomeEvent) -> Unit
 ) {
+    // TODO
+    //  check if user is logged in
+    //  refresh agendas
+    //  add logout function
+    //  add profile name from user full name
+    //  add option items
+    //  add agenda types
+
     val datePickerState = rememberMaterialDialogState()
     MaterialDialog(
         dialogState = datePickerState,
         buttons = {
-            positiveButton(stringResource(R.string.ok))
-            negativeButton(stringResource(R.string.cancel))
+            positiveButton(
+                text = stringResource(R.string.ok),
+                textStyle = TextStyle(color = Black),
+            )
+            negativeButton(
+                text = stringResource(R.string.cancel),
+                textStyle = TextStyle(color = Black)
+            )
         }
     ) {
-        datepicker { date ->
+        datepicker(
+            colors = datePickerColors
+        ) { date ->
             onEvent(HomeEvent.OnDateSelected(date))
         }
     }

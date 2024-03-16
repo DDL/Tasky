@@ -50,6 +50,6 @@ sealed class AgendaItem(
         title = reminderTitle,
         description = reminderDescription,
         time = reminderDate,
-        remindAt = reminderRemindAt)
-
+        remindAt = reminderRemindAt
+    )
 }
