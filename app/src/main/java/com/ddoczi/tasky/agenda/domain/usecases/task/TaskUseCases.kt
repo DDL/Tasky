@@ -1,3 +1,5 @@
 package com.ddoczi.tasky.agenda.domain.usecases.task
 
-//1
+data class TaskUseCases(
+    val deleteTask: DeleteTask
+)
