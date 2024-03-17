@@ -10,12 +10,14 @@ class TaskRepositoryImpl(private val agendaDao: AgendaDao) : TaskRepository {
     override suspend fun getTaskById(id: String): AgendaItem.Task {
         return agendaDao.getTaskById(id).toTaskAgendaItem()
     }
-
     override suspend fun insertTask(task: AgendaItem.Task) {
         agendaDao.insertTask(task.toTaskEntity())
     }
-
     override suspend fun deleteTaskById(id: String) {
         agendaDao.deleteTaskById(id)
+    }
+    override suspend fun changeTaskStatus(id: String, isDone: Boolean) {
+        val task = getTaskById(id).copy(isDone = isDone)
+        insertTask(task)
     }
 }

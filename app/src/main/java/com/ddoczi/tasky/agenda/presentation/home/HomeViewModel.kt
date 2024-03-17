@@ -24,26 +24,29 @@ class HomeViewModel @Inject constructor(
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnLogOutClick -> {
-                _state.update {
-                    it.copy(showLogout = true)
-                }
+                _state.update { it.copy(showLogout = true) }
             }
             is HomeEvent.OnLogOutDismiss -> {
-                _state.update {
-                    it.copy(showLogout = false)
-                }
+                _state.update { it.copy(showLogout = false) }
             }
             is HomeEvent.OnDateSelected -> {
                 _state.update {
-                    it.copy(currentDate = event.date)
+                    it.copy(
+                        currentDate = event.date,
+                        selectedDay = 0
+                    )
                 }
             }
             is HomeEvent.OnDaySelected -> {
-                _state.update {
-                    it.copy(selectedDay = event.day)
+                _state.update { it.copy(selectedDay = event.day) }
+            }
+            is HomeEvent.OnItemClick -> {
+                viewModelScope.launch {
+                    if(event.agendaItem is AgendaItem.Task){
+                        taskRepository.changeTaskStatus(event.agendaItem.taskId, !event.agendaItem.isDone)
+                    }
                 }
             }
-            is HomeEvent.OnItemClick -> { Unit }
             is HomeEvent.OnItemOptionsClick -> {
                 _state.update {
                     it.copy(
@@ -53,37 +56,25 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeEvent.OnItemOptionsDismiss -> {
-                _state.update {
-                    it.copy(showItemOptions = false)
-                }
+                _state.update { it.copy(showItemOptions = false) }
             }
             is HomeEvent.OnAddAgendaClick -> {
-                _state.update {
-                    it.copy(showAgendaOptions = true)
-                }
+                _state.update { it.copy(showAgendaOptions = true) }
             }
             is HomeEvent.OnAgendaItemDismiss -> {
-                _state.update {
-                    it.copy(showAgendaOptions = false)
-                }
+                _state.update { it.copy(showAgendaOptions = false) }
             }
             is HomeEvent.OnRefreshAgenda -> { Unit }
             is HomeEvent.OnDeleteItem -> {
                 viewModelScope.launch {
                     when (event.agendaItem) {
-                        is AgendaItem.Event -> {
-                            eventRepository.deleteEventById(event.agendaItem.eventId)
-                        }
-                        is AgendaItem.Task -> {
-                            taskRepository.deleteTaskById(event.agendaItem.taskId)
-                        }
-                        is AgendaItem.Reminder -> {
-                            reminderRepository.deleteReminderById(event.agendaItem.reminderId)
-                        }
+                        is AgendaItem.Event -> { eventRepository.deleteEventById(event.agendaItem.eventId) }
+                        is AgendaItem.Task -> { taskRepository.deleteTaskById(event.agendaItem.taskId) }
+                        is AgendaItem.Reminder -> { reminderRepository.deleteReminderById(event.agendaItem.reminderId) }
                     }
                 }
-
             }
+            else -> { Unit }
         }
     }
 }

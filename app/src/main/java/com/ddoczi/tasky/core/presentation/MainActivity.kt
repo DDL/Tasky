@@ -13,6 +13,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.presentation.home.HomeEvent
 import com.ddoczi.tasky.agenda.presentation.home.HomeScreen
 import com.ddoczi.tasky.agenda.presentation.home.HomeViewModel
 import com.ddoczi.tasky.authentication.presentation.login.LoginEvent
@@ -34,7 +36,7 @@ class MainActivity : ComponentActivity() {
             val startDestination = viewModel.state.collectAsStateWithLifecycle().value.isLoggedIn.let { if (it) Route.HOME else Route.LOGIN }
             TaskyTheme {
                 val navController = rememberNavController()
-                TaskyMainScreen(navController, startDestination)
+                TaskyMainScreen(navController, startDestination, viewModel::onLogout)
             }
         }
     }
@@ -43,7 +45,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TaskyMainScreen(
     navController: NavHostController,
-    startDestination: String
+    startDestination: String,
+    onLogout: () -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -82,7 +85,15 @@ fun TaskyMainScreen(
             val state by viewModel.state.collectAsStateWithLifecycle()
             HomeScreen(
                 state = state,
-                onEvent = { event -> viewModel.onEvent(event) }
+                onEvent = {event ->
+                    when(event) {
+                        is HomeEvent.OnLogOutConfirm -> { onLogout() }
+                        is HomeEvent.OnRedirectToAgendaItem -> { println(event.option + " " + event.agendaItem) }
+                        is HomeEvent.OnRedirectToAddAgendaItem -> { println("Add new " + event.agendaType) }
+                        else -> { Unit }
+                    }
+                    viewModel.onEvent(event)
+                }
             )
         }
     }
@@ -92,6 +103,6 @@ fun TaskyMainScreen(
 @Composable
 fun MainScreenPreview() {
     TaskyTheme {
-        TaskyMainScreen( rememberNavController(), Route.LOGIN)
+        TaskyMainScreen(rememberNavController(), Route.LOGIN, {})
     }
 }

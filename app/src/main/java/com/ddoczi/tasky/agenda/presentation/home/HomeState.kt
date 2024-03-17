@@ -10,7 +10,6 @@ data class HomeState(
     val selectedDay: Int = 0,
     val profileName: String = "",
     val agendaItems: List<AgendaItem> = emptyList(),
-    val selectedAgendaType: HomeAgendaType? = null,
     val selectedAgendaItem: AgendaItem? = null,
     val showAgendaOptions: Boolean = false,
     val showItemOptions: Boolean = false,

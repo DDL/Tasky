@@ -60,9 +60,7 @@ fun HomeScreen(
             )
         }
     ) {
-        datepicker(
-            colors = datePickerColors
-        ) { date ->
+        datepicker(colors = datePickerColors) { date ->
             onEvent(HomeEvent.OnDateSelected(date))
         }
     }
@@ -83,13 +81,17 @@ fun HomeScreen(
             ) {
                 TaskyDropdown(
                     items = listOf("Log out"),
-                    onItemSelected = { },
+                    onItemSelected = { onEvent(HomeEvent.OnLogOutConfirm) },
                     showDropdown = state.showLogout,
                     onDismiss = { onEvent(HomeEvent.OnLogOutDismiss) })
             }
         },
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 10.dp, end = 10.dp)
+        ) {
             HomeDayPicker(date = state.currentDate, selectedDay = state.selectedDay) {
                 onEvent(HomeEvent.OnDaySelected(it))
             }
@@ -108,21 +110,34 @@ fun HomeScreen(
             )
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn(modifier = Modifier.fillMaxWidth()){
-                items(state.agendaItems) {
+                items(state.agendaItems) { agendaItem ->
                     HomeAgendaItem(
-                        item = it,
-                        color = when(it) {
+                        item = agendaItem,
+                        color = when(agendaItem) {
                                  is AgendaItem.Event -> LightGreen
                                  is AgendaItem.Task -> Green
                                  is AgendaItem.Reminder -> Light
                                },
-                        onItemOptionsClick = {onEvent(HomeEvent.OnItemOptionsClick(it))},
-                        onItemClick = { onEvent(HomeEvent.OnItemClick(it)) }
+                        onItemOptionsClick = {onEvent(HomeEvent.OnItemOptionsClick(agendaItem))},
+                        onItemClick = { onEvent(HomeEvent.OnItemClick(agendaItem)) }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterEnd) {
+                val options = listOf("Open", "Edit", "Delete")
+                TaskyDropdown(
+                    items = options,
+                    onItemSelected = { selectedItem ->
+                        onEvent(HomeEvent.OnRedirectToAgendaItem(state.selectedAgendaItem!!, options[selectedItem]))
+                    },
+                    onDismiss = { onEvent(HomeEvent.OnItemOptionsDismiss) },
+                    showDropdown = state.showItemOptions
+                )
+            }
+            val agendaTypes = listOf("Event", "Task", "Reminder")
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -135,12 +150,8 @@ fun HomeScreen(
                     icon = Icons.Default.Add,
                 )
                 TaskyDropdown(
-                    items = listOf(
-                        "Event",
-                        "Task",
-                        "Reminder"
-                    ),
-                    onItemSelected = {},
+                    items = agendaTypes,
+                    onItemSelected = { selectedItem -> onEvent(HomeEvent.OnRedirectToAddAgendaItem(agendaTypes[selectedItem]))},
                     onDismiss = { onEvent(HomeEvent.OnAgendaItemDismiss)},
                     showDropdown = state.showAgendaOptions
                 )
