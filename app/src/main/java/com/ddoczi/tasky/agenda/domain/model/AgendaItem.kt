@@ -1,21 +1,20 @@
 package com.ddoczi.tasky.agenda.domain.model
 
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 sealed class AgendaItem(
     val agendaItemId: String,
     val title: String,
     val description: String,
-    val time: LocalDate,
+    val time: LocalDateTime,
     val remindAt: LocalDateTime
 ){
     data class Event(
         val eventId: String,
         val eventTitle: String,
         val eventDescription: String,
-        val eventFromDate: LocalDate,
-        val eventToDate: LocalDate,
+        val eventFromDate: LocalDateTime,
+        val eventToDate: LocalDateTime,
         val eventRemindAt: LocalDateTime
     ) : AgendaItem(
         agendaItemId = eventId,
@@ -29,7 +28,7 @@ sealed class AgendaItem(
         val taskId: String,
         val taskTitle: String,
         val taskDescription: String,
-        val taskDate: LocalDate,
+        val taskDate: LocalDateTime,
         val taskRemindAt: LocalDateTime,
         val isDone: Boolean
     ) : AgendaItem(
@@ -44,13 +43,13 @@ sealed class AgendaItem(
         val reminderId: String,
         val reminderTitle: String,
         val reminderDescription: String,
-        val reminderDate: LocalDate,
+        val reminderDate: LocalDateTime,
         val reminderRemindAt: LocalDateTime
     ) : AgendaItem(
         agendaItemId = reminderId,
         title = reminderTitle,
         description = reminderDescription,
         time = reminderDate,
-        remindAt = reminderRemindAt)
-
+        remindAt = reminderRemindAt
+    )
 }
