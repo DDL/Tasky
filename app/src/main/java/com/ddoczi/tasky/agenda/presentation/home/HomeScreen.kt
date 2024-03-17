@@ -17,12 +17,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.R
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.enums.AgendaOption
+import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.home.composables.HomeAgendaItem
 import com.ddoczi.tasky.agenda.presentation.home.composables.HomeDayPicker
 import com.ddoczi.tasky.agenda.presentation.home.composables.HomeHeader
@@ -127,17 +131,15 @@ fun HomeScreen(
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.CenterEnd) {
-                val options = listOf("Open", "Edit", "Delete")
                 TaskyDropdown(
-                    items = options,
+                    items = AgendaOption.entries.map { it.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } },
                     onItemSelected = { selectedItem ->
-                        onEvent(HomeEvent.OnRedirectToAgendaItem(state.selectedAgendaItem!!, options[selectedItem]))
+                        onEvent(HomeEvent.OnRedirectToAgendaItem(state.selectedAgendaItem!!, AgendaOption.valueOf(AgendaOption.entries[selectedItem].name)))
                     },
                     onDismiss = { onEvent(HomeEvent.OnItemOptionsDismiss) },
                     showDropdown = state.showItemOptions
                 )
             }
-            val agendaTypes = listOf("Event", "Task", "Reminder")
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -150,8 +152,8 @@ fun HomeScreen(
                     icon = Icons.Default.Add,
                 )
                 TaskyDropdown(
-                    items = agendaTypes,
-                    onItemSelected = { selectedItem -> onEvent(HomeEvent.OnRedirectToAddAgendaItem(agendaTypes[selectedItem]))},
+                    items = AgendaType.entries.map { it.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } },
+                    onItemSelected = { selectedItem -> onEvent(HomeEvent.OnRedirectToAddAgendaItem(AgendaType.valueOf(AgendaType.entries[selectedItem].name))) },
                     onDismiss = { onEvent(HomeEvent.OnAgendaItemDismiss)},
                     showDropdown = state.showAgendaOptions
                 )

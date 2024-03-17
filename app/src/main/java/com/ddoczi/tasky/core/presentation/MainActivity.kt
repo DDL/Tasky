@@ -14,6 +14,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.enums.AgendaType
+import com.ddoczi.tasky.agenda.presentation.detail.event.EventDetailScreen
+import com.ddoczi.tasky.agenda.presentation.detail.reminder.ReminderDetailScreen
+import com.ddoczi.tasky.agenda.presentation.detail.task.TaskDetailScreen
 import com.ddoczi.tasky.agenda.presentation.home.HomeEvent
 import com.ddoczi.tasky.agenda.presentation.home.HomeScreen
 import com.ddoczi.tasky.agenda.presentation.home.HomeViewModel
@@ -88,14 +92,29 @@ fun TaskyMainScreen(
                 onEvent = {event ->
                     when(event) {
                         is HomeEvent.OnLogOutConfirm -> { onLogout() }
-                        is HomeEvent.OnRedirectToAgendaItem -> { println(event.option + " " + event.agendaItem) }
-                        is HomeEvent.OnRedirectToAddAgendaItem -> { println("Add new " + event.agendaType) }
+                        is HomeEvent.OnRedirectToAgendaItem -> {
+                            when(event.agendaItem) {
+                                is AgendaItem.Event -> { navController.navigate(Route.EVENT) }
+                                is AgendaItem.Task -> { navController.navigate(Route.TASK) }
+                                is AgendaItem.Reminder -> { navController.navigate(Route.REMINDER) }
+                            }
+                        }
+                        is HomeEvent.OnRedirectToAddAgendaItem -> {
+                            when(event.agendaType) {
+                                AgendaType.EVENT -> { navController.navigate(Route.EVENT) }
+                                AgendaType.TASK -> { navController.navigate(Route.TASK) }
+                                AgendaType.REMINDER -> { navController.navigate(Route.REMINDER) }
+                            }
+                        }
                         else -> { Unit }
                     }
                     viewModel.onEvent(event)
                 }
             )
         }
+        composable(Route.EVENT) { EventDetailScreen() }
+        composable(Route.TASK) { TaskDetailScreen() }
+        composable(Route.REMINDER) { ReminderDetailScreen() }
     }
 }
 

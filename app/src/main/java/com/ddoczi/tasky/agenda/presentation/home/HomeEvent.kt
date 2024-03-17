@@ -1,6 +1,8 @@
 package com.ddoczi.tasky.agenda.presentation.home
 
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.enums.AgendaOption
+import com.ddoczi.tasky.agenda.enums.AgendaType
 import java.time.LocalDate
 
 sealed class HomeEvent {
@@ -13,8 +15,8 @@ sealed class HomeEvent {
     data class OnItemOptionsClick(val agendaItem: AgendaItem) : HomeEvent()
     data object OnItemOptionsDismiss : HomeEvent()
     data object OnAddAgendaClick : HomeEvent()
-    data class OnRedirectToAddAgendaItem(val agendaType: String) : HomeEvent()
-    data class OnRedirectToAgendaItem(val agendaItem: AgendaItem, val option: String) : HomeEvent()
+    data class OnRedirectToAddAgendaItem(val agendaType: AgendaType) : HomeEvent()
+    data class OnRedirectToAgendaItem(val agendaItem: AgendaItem, val option: AgendaOption) : HomeEvent()
     data object OnAgendaItemDismiss : HomeEvent()
     data object OnRefreshAgenda : HomeEvent()
     data class OnDeleteItem(val agendaItem: AgendaItem) : HomeEvent()
