@@ -3,6 +3,9 @@ package com.ddoczi.tasky.agenda.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.domain.repository.EventRepository
+import com.ddoczi.tasky.agenda.domain.repository.ReminderRepository
+import com.ddoczi.tasky.agenda.domain.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +15,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-
+    private val eventRepository: EventRepository,
+    private val taskRepository: TaskRepository,
+    private val reminderRepository: ReminderRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
@@ -63,7 +68,22 @@ class HomeViewModel @Inject constructor(
                 }
             }
             is HomeEvent.OnRefreshAgenda -> { Unit }
-            is HomeEvent.OnDeleteItem -> { Unit }
+            is HomeEvent.OnDeleteItem -> {
+                viewModelScope.launch {
+                    when (event.agendaItem) {
+                        is AgendaItem.Event -> {
+                            eventRepository.deleteEventById(event.agendaItem.eventId)
+                        }
+                        is AgendaItem.Task -> {
+                            taskRepository.deleteTaskById(event.agendaItem.taskId)
+                        }
+                        is AgendaItem.Reminder -> {
+                            reminderRepository.deleteReminderById(event.agendaItem.reminderId)
+                        }
+                    }
+                }
+
+            }
         }
     }
 }
