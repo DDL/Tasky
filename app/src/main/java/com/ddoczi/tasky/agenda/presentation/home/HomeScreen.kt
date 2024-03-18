@@ -17,9 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +31,7 @@ import com.ddoczi.tasky.agenda.presentation.home.composables.HomeHeader
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
 import com.ddoczi.tasky.core.presentation.composables.TaskyButton
 import com.ddoczi.tasky.core.presentation.composables.TaskyDropdown
+import com.ddoczi.tasky.core.util.names
 import com.ddoczi.tasky.ui.theme.Black
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.Light
@@ -132,7 +131,7 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.CenterEnd) {
                 TaskyDropdown(
-                    items = AgendaOption.entries.map { it.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } },
+                    items = AgendaOption.entries.names,
                     onItemSelected = { selectedItem ->
                         onEvent(HomeEvent.OnRedirectToAgendaItem(state.selectedAgendaItem!!, AgendaOption.valueOf(AgendaOption.entries[selectedItem].name)))
                     },
@@ -152,7 +151,7 @@ fun HomeScreen(
                     icon = Icons.Default.Add,
                 )
                 TaskyDropdown(
-                    items = AgendaType.entries.map { it.name.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() } },
+                    items = AgendaType.entries.names,
                     onItemSelected = { selectedItem -> onEvent(HomeEvent.OnRedirectToAddAgendaItem(AgendaType.valueOf(AgendaType.entries[selectedItem].name))) },
                     onDismiss = { onEvent(HomeEvent.OnAgendaItemDismiss)},
                     showDropdown = state.showAgendaOptions
