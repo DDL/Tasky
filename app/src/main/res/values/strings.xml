@@ -15,4 +15,12 @@
     <string name="month_picker_dropdown_icon">Month Picker Dropdown Icon</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="edit_icon">Edit icon</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="title_icon">title icon</string>
+    <string name="task">Task</string>
+    <string name="at">At</string>
 </resources>

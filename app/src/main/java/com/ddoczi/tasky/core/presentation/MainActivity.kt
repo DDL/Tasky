@@ -18,6 +18,7 @@ import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.event.EventDetailScreen
 import com.ddoczi.tasky.agenda.presentation.detail.reminder.ReminderDetailScreen
 import com.ddoczi.tasky.agenda.presentation.detail.task.TaskDetailScreen
+import com.ddoczi.tasky.agenda.presentation.detail.task.TaskDetailViewModel
 import com.ddoczi.tasky.agenda.presentation.home.HomeEvent
 import com.ddoczi.tasky.agenda.presentation.home.HomeScreen
 import com.ddoczi.tasky.agenda.presentation.home.HomeViewModel
@@ -113,7 +114,14 @@ fun TaskyMainScreen(
             )
         }
         composable(Route.EVENT) { EventDetailScreen() }
-        composable(Route.TASK) { TaskDetailScreen() }
+        composable(Route.TASK) {
+            val viewModel = hiltViewModel<TaskDetailViewModel>()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            TaskDetailScreen(
+                state = state,
+                onEvent = { event -> viewModel.onEvent(event) }
+            )
+        }
         composable(Route.REMINDER) { ReminderDetailScreen() }
     }
 }
