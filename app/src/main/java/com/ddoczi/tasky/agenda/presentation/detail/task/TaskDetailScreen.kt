@@ -67,9 +67,7 @@ fun TaskDetailScreen(
                 onClick = {  }
             )
             Divider(color = Light)
-            //DetailTimeSelector
             Divider(color = Light)
-            //DetailNotificationReminder
             }
             Box {
                 Divider(color = Light)
