@@ -14,21 +14,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.R
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailColor
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailDescription
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailHeader
-import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailNotificationReminder
-import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTimeSelector
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTitle
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
 import com.ddoczi.tasky.ui.theme.Gray
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.Light
-import com.ddoczi.tasky.ui.theme.TaskyTheme
 
 @Composable
 fun TaskDetailScreen(
@@ -71,17 +67,9 @@ fun TaskDetailScreen(
                 onClick = {  }
             )
             Divider(color = Light)
-            DetailTimeSelector(
-                modifier = Modifier.padding(start = 16.dp),
-                text = stringResource(R.string.at),
-                date = state.date,
-                time = state.time,
-                isEditable = state.isEditing,
-                onDateSelected = { },
-                onTimeSelected = { }
-            )
+            //DetailTimeSelector
             Divider(color = Light)
-            DetailNotificationReminder()
+            //DetailNotificationReminder
             }
             Box {
                 Divider(color = Light)
@@ -101,22 +89,5 @@ fun TaskDetailScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    TaskyTheme {
-        TaskDetailScreen(
-            state = TaskDetailState(
-                id = "1",
-                title = "Task 1",
-                description = "Description",
-                isEditing = false,
-                isDone = false
-            ),
-            onEvent = {}
-        )
     }
 }
