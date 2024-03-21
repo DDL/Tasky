@@ -22,6 +22,7 @@ import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailColor
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailDescription
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailHeader
+import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailNotificationReminder
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTimeSelector
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTitle
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
@@ -90,6 +91,12 @@ fun AgendaDetailScreen(
                     onTimeSelected = { }
                 )
                 Divider(color = Light)
+                DetailNotificationReminder(
+                    onClick = {},
+                    showDropdown = false,
+                    onDismiss = {},
+                    isEditable = true
+                )
             }
             Box {
                 Divider(color = Light)

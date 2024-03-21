@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.R
 import com.ddoczi.tasky.ui.theme.Black
+import com.ddoczi.tasky.ui.theme.datePickerColors
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
@@ -57,7 +58,7 @@ fun DetailTimeSelector(
             negativeButton(stringResource(id = R.string.cancel))
         }
     ) {
-        datepicker { date ->
+        datepicker(colors = datePickerColors) { date ->
             onDateSelected(date)
         }
     }
