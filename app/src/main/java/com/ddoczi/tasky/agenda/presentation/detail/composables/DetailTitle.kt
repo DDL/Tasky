@@ -33,7 +33,7 @@ fun DetailTitle(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .then(if (isEditable) Modifier.clickable(onClick = onClick) else Modifier)
+            .clickable(isEditable) { onClick() }
             .padding(top = 20.dp, bottom = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
