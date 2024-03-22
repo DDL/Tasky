@@ -15,10 +15,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.agenda.enums.AgendaType
-import com.ddoczi.tasky.agenda.presentation.detail.event.EventDetailScreen
-import com.ddoczi.tasky.agenda.presentation.detail.reminder.ReminderDetailScreen
-import com.ddoczi.tasky.agenda.presentation.detail.task.TaskDetailScreen
-import com.ddoczi.tasky.agenda.presentation.detail.task.TaskDetailViewModel
+import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailScreen
+import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailViewModel
 import com.ddoczi.tasky.agenda.presentation.home.HomeEvent
 import com.ddoczi.tasky.agenda.presentation.home.HomeScreen
 import com.ddoczi.tasky.agenda.presentation.home.HomeViewModel
@@ -94,18 +92,15 @@ fun TaskyMainScreen(
                     when(event) {
                         is HomeEvent.OnLogOutConfirm -> { onLogout() }
                         is HomeEvent.OnRedirectToAgendaItem -> {
-                            when(event.agendaItem) {
-                                is AgendaItem.Event -> { navController.navigate(Route.EVENT) }
-                                is AgendaItem.Task -> { navController.navigate(Route.TASK) }
-                                is AgendaItem.Reminder -> { navController.navigate(Route.REMINDER) }
+                            val agendaType = when(event.agendaItem) {
+                                is AgendaItem.Event -> AgendaType.EVENT
+                                is AgendaItem.Task -> AgendaType.TASK
+                                is AgendaItem.Reminder -> AgendaType.REMINDER
                             }
+                            navController.navigate(Route.AGENDA_DETAIL) //+ agendaType
                         }
                         is HomeEvent.OnRedirectToAddAgendaItem -> {
-                            when(event.agendaType) {
-                                AgendaType.EVENT -> { navController.navigate(Route.EVENT) }
-                                AgendaType.TASK -> { navController.navigate(Route.TASK) }
-                                AgendaType.REMINDER -> { navController.navigate(Route.REMINDER) }
-                            }
+                            navController.navigate(Route.AGENDA_DETAIL) //+ agendaType
                         }
                         else -> { Unit }
                     }
@@ -113,16 +108,14 @@ fun TaskyMainScreen(
                 }
             )
         }
-        composable(Route.EVENT) { EventDetailScreen() }
-        composable(Route.TASK) {
-            val viewModel = hiltViewModel<TaskDetailViewModel>()
+        composable(Route.AGENDA_DETAIL) {backStackEntry ->
+            val viewModel = hiltViewModel<AgendaDetailViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-            TaskDetailScreen(
+            AgendaDetailScreen(
                 state = state,
                 onEvent = { event -> viewModel.onEvent(event) }
             )
         }
-        composable(Route.REMINDER) { ReminderDetailScreen() }
     }
 }
 

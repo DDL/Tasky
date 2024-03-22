@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.NavigateNext
-import androidx.compose.material.icons.outlined.NavigateNext
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +28,7 @@ fun DetailDescription(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .then(if (isEditable) Modifier.clickable { onClick() } else Modifier)
+            .clickable(isEditable) { onClick() }
             .padding(top = 20.dp, bottom = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween

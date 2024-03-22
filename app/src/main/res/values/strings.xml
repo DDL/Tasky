@@ -20,7 +20,9 @@
     <string name="edit_icon">Edit icon</string>
     <string name="edit_task">Edit Task</string>
     <string name="delete_task">Delete Task</string>
-    <string name="title_icon">title icon</string>
+    <string name="edit_agenda">Edit %1$s</string>
+    <string name="delete_agenda">Delete %1$s</string>
+    <string name="title_icon">Title icon</string>
     <string name="task">Task</string>
     <string name="at">At</string>
 </resources>
