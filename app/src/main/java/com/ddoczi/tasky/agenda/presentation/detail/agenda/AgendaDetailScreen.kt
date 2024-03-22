@@ -36,9 +36,8 @@ import java.time.LocalDate
 fun AgendaDetailScreen(
     state: AgendaDetailState,
     onEvent: (AgendaDetailEvent) -> Unit,
+    agendaType: AgendaType = AgendaType.TASK
 ) {
-    //TEST
-    val agendaType = AgendaType.TASK
     TaskyBackground(
         titleWeight = 1f,
         contentWeight = 9f,

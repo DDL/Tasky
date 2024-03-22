@@ -30,4 +30,5 @@
     <string name="_1_hour_before">1 hour before</string>
     <string name="_6_hours_before">6 hours before</string>
     <string name="_1_day_before">1 day before</string>
+    <string name="reminder_icon">reminder icon</string>
 </resources>

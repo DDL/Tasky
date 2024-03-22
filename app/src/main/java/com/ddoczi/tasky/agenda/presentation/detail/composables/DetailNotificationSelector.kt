@@ -56,7 +56,7 @@ fun DetailNotificationReminder(
                 Icon(
                     imageVector = Icons.Default.Notifications,
                     tint = DarkGray,
-                    contentDescription = "notification",
+                    contentDescription = stringResource(R.string.reminder_icon),
                     modifier = Modifier.padding(2.dp)
                 )
             }
