@@ -76,11 +76,11 @@ fun DetailNotificationReminder(
     }
     TaskyDropdown(
         items = listOf(
-            "10 minutes before",
-            "30 minutes before",
-            "1 hour before",
-            "6 hours before",
-            "1 day before)",
+            stringResource(R.string._10_minutes_before),
+            stringResource(R.string._30_minutes_before),
+            stringResource(R.string._1_hour_before),
+            stringResource(R.string._6_hours_before),
+            stringResource(R.string._1_day_before),
         ),
         onItemSelected = {},
         onDismiss = onDismiss,

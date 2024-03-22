@@ -13,9 +13,9 @@ sealed class AgendaDetailEvent {
     data class OnTimeSelected(val time: LocalDateTime) : AgendaDetailEvent()
     data class OnFromDateSelected(val date: LocalDate) : AgendaDetailEvent()
     data class OnFromTimeSelected(val time: LocalTime) : AgendaDetailEvent()
-    data object OnNotificationClick : AgendaDetailEvent()
-    data object OnNotificationDismiss : AgendaDetailEvent()
-    data object OnNotificationSelect : AgendaDetailEvent()
+    data object OnReminderTypeClick : AgendaDetailEvent()
+    data object OnReminderTypeDismiss : AgendaDetailEvent()
+    data object OnReminderTypeSelect : AgendaDetailEvent()
     data class OnUpdatedInformation(val title: String, val description: String) : AgendaDetailEvent()
 }
 
