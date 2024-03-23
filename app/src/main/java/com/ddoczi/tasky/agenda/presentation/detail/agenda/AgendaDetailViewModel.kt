@@ -25,20 +25,14 @@ class AgendaDetailViewModel @Inject constructor(): ViewModel() {
                 //delete agenda by type
                 _state.update { it.copy(shouldExit = true) }
             }
-            is AgendaDetailEvent.OnDateSelected -> {
-                _state.update { it.copy(date = event.date) }
-            }
-            is AgendaDetailEvent.OnTimeSelected -> {
-                _state.update { it.copy(time = event.time) }
-            }
             is AgendaDetailEvent.OnFromDateSelected -> {
                 _state.update { it.copy(fromDate = event.fromDate) }
             }
             is AgendaDetailEvent.OnToDateSelected -> {
                 _state.update { it.copy(toDate = event.toDate) }
             }
-            is AgendaDetailEvent.OnFromTimeSelected -> {
-                _state.update { it.copy(fromTime = event.fromTime) }
+            is AgendaDetailEvent.OnTimeSelected -> {
+                _state.update { it.copy(time = event.time) }
             }
             is AgendaDetailEvent.OnToTimeSelected -> {
                 _state.update { it.copy(toTime = event.toTime) }

@@ -10,9 +10,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailEvent
@@ -98,10 +100,11 @@ fun TaskyMainScreen(
                                 is AgendaItem.Task -> AgendaType.TASK
                                 is AgendaItem.Reminder -> AgendaType.REMINDER
                             }
-                            navController.navigate(Route.AGENDA_DETAIL) //+ agendaType
+                            navController.navigate("${Route.AGENDA_DETAIL}/${agendaType}")
                         }
                         is HomeEvent.OnRedirectToAddAgendaItem -> {
-                            navController.navigate(Route.AGENDA_DETAIL) //+ agendaType
+                            println("agendaType 1: ${event.agendaType}")
+                            navController.navigate("${Route.AGENDA_DETAIL}/${event.agendaType}")
                         }
                         else -> { Unit }
                     }
@@ -109,7 +112,15 @@ fun TaskyMainScreen(
                 }
             )
         }
-        composable(Route.AGENDA_DETAIL) {backStackEntry ->
+        composable(
+            route = Route.AGENDA_DETAIL + "/{agendaType}",
+            arguments = listOf(
+                navArgument("agendaType") {
+                    type = NavType.EnumType(AgendaType::class.java)
+                    nullable = false
+                })
+        ) { backStackEntry ->
+            val agendaType = backStackEntry.arguments?.get("agendaType") as AgendaType
             val viewModel = hiltViewModel<AgendaDetailViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             AgendaDetailScreen(
@@ -120,7 +131,8 @@ fun TaskyMainScreen(
                         else -> { Unit }
                     }
                     viewModel.onEvent(event)
-                }
+                },
+                agendaType = agendaType
             )
         }
     }

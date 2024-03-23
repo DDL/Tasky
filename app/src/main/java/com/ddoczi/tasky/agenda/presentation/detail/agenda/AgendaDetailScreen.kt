@@ -36,7 +36,7 @@ import java.time.LocalDate
 fun AgendaDetailScreen(
     state: AgendaDetailState,
     onEvent: (AgendaDetailEvent) -> Unit,
-    agendaType: AgendaType = AgendaType.TASK
+    agendaType: AgendaType
 ) {
     TaskyBackground(
         titleWeight = 1f,
@@ -44,7 +44,7 @@ fun AgendaDetailScreen(
         header = {
             DetailHeader(
                 editingText = stringResource(R.string.edit_agenda, agendaType.name),
-                date = state.date,
+                date = state.fromDate,
                 onClose = { onEvent(AgendaDetailEvent.OnClose) },
                 onEdit = { onEvent(AgendaDetailEvent.OnEdit) },
                 onSave = { onEvent(AgendaDetailEvent.OnSave) },
@@ -63,7 +63,6 @@ fun AgendaDetailScreen(
                         AgendaType.TASK -> Green
                         AgendaType.REMINDER -> LightGreen
                         AgendaType.EVENT -> Gray
-                        else -> Light
                     }
                 )
                 DetailTitle(
@@ -83,7 +82,7 @@ fun AgendaDetailScreen(
                 DetailTimeSelector(
                     modifier = Modifier.padding(start = 16.dp),
                     text = stringResource(R.string.at),
-                    date = state.date,
+                    date = state.fromDate,
                     time = state.time,
                     isEditable = state.isEditing,
                     onDateSelected = { },
@@ -125,9 +124,10 @@ fun AgendaDetailScreenPreview() {
         state = AgendaDetailState(
             title = "Title",
             description = "Description",
-            date = LocalDate.now(),
+            fromDate = LocalDate.now(),
             isEditing = true
         ),
-        onEvent = {}
+        onEvent = {},
+        agendaType = AgendaType.TASK
     )
 }
