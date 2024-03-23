@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.agenda.enums.AgendaType
+import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailEvent
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailScreen
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailViewModel
 import com.ddoczi.tasky.agenda.presentation.home.HomeEvent
@@ -113,7 +114,13 @@ fun TaskyMainScreen(
             val state by viewModel.state.collectAsStateWithLifecycle()
             AgendaDetailScreen(
                 state = state,
-                onEvent = { event -> viewModel.onEvent(event) }
+                onEvent = { event ->
+                    when(event) {
+                        is AgendaDetailEvent.OnClose -> { navController.navigateUp() }
+                        else -> { Unit }
+                    }
+                    viewModel.onEvent(event)
+                }
             )
         }
     }
