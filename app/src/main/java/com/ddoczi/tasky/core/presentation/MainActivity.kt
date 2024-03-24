@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.enums.AgendaOption
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailEvent
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailScreen
@@ -100,10 +101,14 @@ fun TaskyMainScreen(
                                 is AgendaItem.Task -> AgendaType.TASK
                                 is AgendaItem.Reminder -> AgendaType.REMINDER
                             }
-                            navController.navigate("${Route.AGENDA_DETAIL}/${agendaType}")
+                            if(event.option == AgendaOption.DELETE) {
+                                //Ask if user is sure to delete
+                                viewModel.onEvent(HomeEvent.OnDeleteItem(event.agendaItem))
+                            } else {
+                                navController.navigate("${Route.AGENDA_DETAIL}/${agendaType}?option=${event.option}")
+                            }
                         }
                         is HomeEvent.OnRedirectToAddAgendaItem -> {
-                            println("agendaType 1: ${event.agendaType}")
                             navController.navigate("${Route.AGENDA_DETAIL}/${event.agendaType}")
                         }
                         else -> { Unit }
@@ -113,14 +118,16 @@ fun TaskyMainScreen(
             )
         }
         composable(
-            route = Route.AGENDA_DETAIL + "/{agendaType}",
+            route = Route.AGENDA_DETAIL + "/{agendaType}?option={option}",
             arguments = listOf(
                 navArgument("agendaType") {
                     type = NavType.EnumType(AgendaType::class.java)
                     nullable = false
-                })
+                },
+            )
         ) { backStackEntry ->
             val agendaType = backStackEntry.arguments?.get("agendaType") as AgendaType
+            val option = backStackEntry.arguments?.getString("option")
             val viewModel = hiltViewModel<AgendaDetailViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             AgendaDetailScreen(
@@ -132,7 +139,8 @@ fun TaskyMainScreen(
                     }
                     viewModel.onEvent(event)
                 },
-                agendaType = agendaType
+                agendaType = agendaType,
+                agendaOption = option?.let { AgendaOption.valueOf(it) }
             )
         }
     }

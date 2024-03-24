@@ -30,10 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.core.util.toLong
 import com.ddoczi.tasky.ui.theme.Black
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.White
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun HomeAgendaItem(
@@ -100,7 +103,7 @@ fun HomeAgendaItem(
         Spacer(modifier = modifier.height(16.dp))
         Text(
             modifier = Modifier.align(Alignment.End),
-            text = item.time.toString(),
+            text = item.time.format(DateTimeFormatter.ofPattern("MMM dd, HH:mm")),
             fontSize = 14.sp,
             color = descriptionColor
         )

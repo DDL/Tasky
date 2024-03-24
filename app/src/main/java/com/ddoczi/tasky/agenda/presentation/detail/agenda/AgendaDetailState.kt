@@ -1,5 +1,6 @@
 package com.ddoczi.tasky.agenda.presentation.detail.agenda
 
+import com.ddoczi.tasky.agenda.enums.AgendaType
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -12,7 +13,8 @@ data class AgendaDetailState(
     val time: LocalTime = LocalTime.now(),
     val toTime: LocalTime = LocalTime.now(),
     val description: String = "",
-    val isEditing: Boolean = true,
+    val agendaType: AgendaType = AgendaType.TASK,
+    val isEditing: Boolean = false,
     val isTaskDone: Boolean = false,
     val shouldExit: Boolean = false,
     val reminder: String = "",
