@@ -41,8 +41,11 @@ fun AgendaDetailScreen(
     agendaType: AgendaType,
     agendaOption: AgendaOption?
 ) {
+    val editTitle = stringResource(id = R.string.edit_title)
+    val editDesc = stringResource(id = R.string.edit_description)
+
     LaunchedEffect(agendaType) {
-        onEvent(AgendaDetailEvent.OnInitScreen(agendaType))
+        onEvent(AgendaDetailEvent.OnInitScreen(agendaType, agendaOption))
     }
 
     LaunchedEffect(key1 = state.shouldExit) {
@@ -59,9 +62,9 @@ fun AgendaDetailScreen(
                 editingText = stringResource(R.string.edit_agenda, agendaType.name),
                 date = state.fromDate,
                 onClose = { onEvent(AgendaDetailEvent.OnClose) },
-                onEdit = { if (agendaOption?.equals(AgendaOption.EDIT) == true) onEvent(AgendaDetailEvent.OnEdit) },
+                onEdit = { if (state.isEditable) onEvent(AgendaDetailEvent.OnEdit) },
                 onSave = { onEvent(AgendaDetailEvent.OnSave) },
-                isEditing = if (agendaOption?.equals(AgendaOption.EDIT) == true) state.isEditing else false
+                isEditing = if (state.isEditable) state.isEditing else false
             )
         }
     ) {
@@ -83,14 +86,30 @@ fun AgendaDetailScreen(
                     modifier = Modifier.padding(start = 16.dp),
                     title = state.title,
                     isEditable = state.isEditing,
-                    onClick = { }
+                    onClick = {
+                        onEvent(
+                            AgendaDetailEvent.OnOpenEditor(
+                                state.id,
+                                editTitle,
+                                state.title
+                            )
+                        )
+                    }
                 )
                 Divider(color = Light)
                 DetailDescription(
                     modifier = Modifier.padding(start = 16.dp),
                     description = state.description,
                     isEditable = state.isEditing,
-                    onClick = {  }
+                    onClick = {
+                        onEvent(
+                            AgendaDetailEvent.OnOpenEditor(
+                                state.id,
+                                editDesc,
+                                state.description
+                            )
+                        )
+                    }
                 )
                 Divider(color = Light)
                 DetailTimeSelector(
@@ -99,8 +118,8 @@ fun AgendaDetailScreen(
                     date = state.fromDate,
                     time = state.time,
                     isEditable = state.isEditing,
-                    onDateSelected = { },
-                    onTimeSelected = { }
+                    onDateSelected = { onEvent(AgendaDetailEvent.OnFromDateSelected(it)) },
+                    onTimeSelected = { onEvent(AgendaDetailEvent.OnTimeSelected(it)) }
                 )
                 Divider(color = Light)
                 DetailNotificationReminder(

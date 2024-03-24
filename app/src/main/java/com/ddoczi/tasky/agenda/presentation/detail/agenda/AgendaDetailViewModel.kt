@@ -6,6 +6,7 @@ import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.agenda.domain.repository.EventRepository
 import com.ddoczi.tasky.agenda.domain.repository.ReminderRepository
 import com.ddoczi.tasky.agenda.domain.repository.TaskRepository
+import com.ddoczi.tasky.agenda.enums.AgendaOption
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.core.util.toLocalDateTime
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -113,7 +114,12 @@ class AgendaDetailViewModel @Inject constructor(
                 }
             }
             is AgendaDetailEvent.OnInitScreen -> {
-                _state.update { it.copy(agendaType = event.agendaType) }
+                _state.update {
+                    it.copy(
+                        agendaType = event.agendaType,
+                        isEditable = event.agendaOption != AgendaOption.OPEN,
+                    )
+                }
             }
             else -> { Unit }
         }

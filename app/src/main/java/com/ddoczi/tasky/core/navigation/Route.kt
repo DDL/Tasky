@@ -5,4 +5,5 @@ object Route {
     const val REGISTRATION = "registration"
     const val HOME = "home"
     const val AGENDA_DETAIL = "agenda_detail"
+    const val AGENDA_EDITOR = "agenda_editor"
 }
