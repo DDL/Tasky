@@ -91,12 +91,6 @@ fun DetailTimeSelector(
                     fontSize = 16.sp,
                     color = Black
                 )
-                if (isEditable) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.NavigateNext,
-                        contentDescription = stringResource(R.string.edit_icon)
-                    )
-                }
             }
             val dateFormatter = DateTimeFormatter.ofPattern("MMM dd uuuu")
             val formatted = date.format(dateFormatter)
@@ -112,14 +106,6 @@ fun DetailTimeSelector(
                     } else Modifier
                 ).padding(start = 10.dp, end = 10.dp)
             )
-        }
-        Box(modifier = Modifier.weight(1f)) {
-            if (isEditable) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.NavigateNext,
-                    contentDescription = stringResource(R.string.edit_icon)
-                )
-            }
         }
     }
 }
