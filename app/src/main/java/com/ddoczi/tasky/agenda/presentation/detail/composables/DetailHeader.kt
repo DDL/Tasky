@@ -26,7 +26,7 @@ fun DetailHeader(
     onClose: () -> Unit,
     onEdit: () -> Unit,
     onSave: () -> Unit,
-    isEditing: Boolean = false
+    isEditing: Boolean
 ) {
     TaskyHeader(modifier = modifier) {
         IconButton(onClick = { onClose() }) {
@@ -43,13 +43,16 @@ fun DetailHeader(
         )
         if(isEditing) {
             Text(
+                //Ask user if he wants to save it
                 modifier = modifier.clickable { onSave() },
                 text = stringResource(R.string.save),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
         } else {
-            IconButton(onClick = { onEdit() }) {
+            IconButton(
+                onClick = { onEdit() }
+            ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(R.string.edit_icon)

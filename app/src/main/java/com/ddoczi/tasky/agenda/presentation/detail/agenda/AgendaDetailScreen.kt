@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.R
+import com.ddoczi.tasky.agenda.enums.AgendaOption
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailColor
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailDescription
@@ -36,18 +38,33 @@ import java.time.LocalDate
 fun AgendaDetailScreen(
     state: AgendaDetailState,
     onEvent: (AgendaDetailEvent) -> Unit,
-    agendaType: AgendaType = AgendaType.TASK
+    agendaType: AgendaType,
+    agendaOption: AgendaOption?
 ) {
+    val editTitle = stringResource(id = R.string.edit_title)
+    val editDesc = stringResource(id = R.string.edit_description)
+
+    LaunchedEffect(agendaType) {
+        onEvent(AgendaDetailEvent.OnInitScreen(agendaType, agendaOption))
+    }
+
+    LaunchedEffect(key1 = state.shouldExit) {
+        if (state.shouldExit) {
+            onEvent(AgendaDetailEvent.OnClose)
+        }
+    }
+    
     TaskyBackground(
         titleWeight = 1f,
         contentWeight = 9f,
         header = {
             DetailHeader(
                 editingText = stringResource(R.string.edit_agenda, agendaType.name),
-                date = state.date,
+                date = state.fromDate,
                 onClose = { onEvent(AgendaDetailEvent.OnClose) },
-                onEdit = { onEvent(AgendaDetailEvent.OnEdit) },
+                onEdit = { if (state.isEditable) onEvent(AgendaDetailEvent.OnEdit) },
                 onSave = { onEvent(AgendaDetailEvent.OnSave) },
+                isEditing = if (state.isEditable) state.isEditing else false
             )
         }
     ) {
@@ -61,33 +78,48 @@ fun AgendaDetailScreen(
                     text = agendaType.name,
                     color = when (agendaType) {
                         AgendaType.TASK -> Green
-                        AgendaType.REMINDER -> LightGreen
-                        AgendaType.EVENT -> Gray
-                        else -> Light
+                        AgendaType.REMINDER -> Gray
+                        AgendaType.EVENT -> LightGreen
                     }
                 )
                 DetailTitle(
                     modifier = Modifier.padding(start = 16.dp),
                     title = state.title,
                     isEditable = state.isEditing,
-                    onClick = { }
+                    onClick = {
+                        onEvent(
+                            AgendaDetailEvent.OnOpenEditor(
+                                state.id,
+                                editTitle,
+                                state.title
+                            )
+                        )
+                    }
                 )
                 Divider(color = Light)
                 DetailDescription(
                     modifier = Modifier.padding(start = 16.dp),
                     description = state.description,
                     isEditable = state.isEditing,
-                    onClick = {  }
+                    onClick = {
+                        onEvent(
+                            AgendaDetailEvent.OnOpenEditor(
+                                state.id,
+                                editDesc,
+                                state.description
+                            )
+                        )
+                    }
                 )
                 Divider(color = Light)
                 DetailTimeSelector(
                     modifier = Modifier.padding(start = 16.dp),
                     text = stringResource(R.string.at),
-                    date = state.date,
+                    date = state.fromDate,
                     time = state.time,
                     isEditable = state.isEditing,
-                    onDateSelected = { },
-                    onTimeSelected = { }
+                    onDateSelected = { onEvent(AgendaDetailEvent.OnFromDateSelected(it)) },
+                    onTimeSelected = { onEvent(AgendaDetailEvent.OnTimeSelected(it)) }
                 )
                 Divider(color = Light)
                 DetailNotificationReminder(
@@ -105,6 +137,7 @@ fun AgendaDetailScreen(
                         .padding(top = 16.dp, bottom = 48.dp),
                     contentAlignment = Alignment.Center
                 ) {
+//                    Ask if user is sure to delete
                     Text(
                         modifier = Modifier.clickable { onEvent(AgendaDetailEvent.OnDelete) },
                         text = stringResource(R.string.delete_agenda, agendaType.name).uppercase(),
@@ -125,9 +158,11 @@ fun AgendaDetailScreenPreview() {
         state = AgendaDetailState(
             title = "Title",
             description = "Description",
-            date = LocalDate.now(),
+            fromDate = LocalDate.now(),
             isEditing = true
         ),
-        onEvent = {}
+        onEvent = {},
+        agendaType = AgendaType.TASK,
+        agendaOption = AgendaOption.EDIT
     )
 }

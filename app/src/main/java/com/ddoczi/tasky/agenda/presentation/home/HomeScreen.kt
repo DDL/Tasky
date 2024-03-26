@@ -120,6 +120,7 @@ fun HomeScreen(
                                  is AgendaItem.Event -> LightGreen
                                  is AgendaItem.Task -> Green
                                  is AgendaItem.Reminder -> Light
+                                 else -> Light
                                },
                         onItemOptionsClick = {onEvent(HomeEvent.OnItemOptionsClick(agendaItem))},
                         onItemClick = { onEvent(HomeEvent.OnItemClick(agendaItem)) }

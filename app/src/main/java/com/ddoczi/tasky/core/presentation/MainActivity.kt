@@ -10,14 +10,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ddoczi.tasky.agenda.domain.model.AgendaItem
+import com.ddoczi.tasky.agenda.enums.AgendaOption
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailEvent
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailScreen
 import com.ddoczi.tasky.agenda.presentation.detail.agenda.AgendaDetailViewModel
+import com.ddoczi.tasky.agenda.presentation.editor.AgendaEditorEvent
+import com.ddoczi.tasky.agenda.presentation.editor.AgendaEditorScreen
+import com.ddoczi.tasky.agenda.presentation.editor.AgendaEditorViewModel
 import com.ddoczi.tasky.agenda.presentation.home.HomeEvent
 import com.ddoczi.tasky.agenda.presentation.home.HomeScreen
 import com.ddoczi.tasky.agenda.presentation.home.HomeViewModel
@@ -93,15 +99,21 @@ fun TaskyMainScreen(
                     when(event) {
                         is HomeEvent.OnLogOutConfirm -> { onLogout() }
                         is HomeEvent.OnRedirectToAgendaItem -> {
+                            //item id
                             val agendaType = when(event.agendaItem) {
                                 is AgendaItem.Event -> AgendaType.EVENT
                                 is AgendaItem.Task -> AgendaType.TASK
                                 is AgendaItem.Reminder -> AgendaType.REMINDER
                             }
-                            navController.navigate(Route.AGENDA_DETAIL) //+ agendaType
+                            if(event.option == AgendaOption.DELETE) {
+                                //Ask if user is sure to delete
+                                viewModel.onEvent(HomeEvent.OnDeleteItem(event.agendaItem))
+                            } else {
+                                navController.navigate("${Route.AGENDA_DETAIL}/${agendaType}?option=${event.option}")
+                            }
                         }
                         is HomeEvent.OnRedirectToAddAgendaItem -> {
-                            navController.navigate(Route.AGENDA_DETAIL) //+ agendaType
+                            navController.navigate("${Route.AGENDA_DETAIL}/${event.agendaType}")
                         }
                         else -> { Unit }
                     }
@@ -109,7 +121,21 @@ fun TaskyMainScreen(
                 }
             )
         }
-        composable(Route.AGENDA_DETAIL) {backStackEntry ->
+        composable(
+            route = Route.AGENDA_DETAIL + "/{agendaType}?option={option}",
+            arguments = listOf(
+                navArgument("agendaType") {
+                    type = NavType.EnumType(AgendaType::class.java)
+                    nullable = false
+                },
+                navArgument("option") {
+                    type = NavType.StringType
+                    nullable = true
+                }
+            )
+        ) { backStackEntry ->
+            val agendaType = backStackEntry.arguments?.get("agendaType") as AgendaType
+            val option = backStackEntry.arguments?.getString("option")
             val viewModel = hiltViewModel<AgendaDetailViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             AgendaDetailScreen(
@@ -117,10 +143,51 @@ fun TaskyMainScreen(
                 onEvent = { event ->
                     when(event) {
                         is AgendaDetailEvent.OnClose -> { navController.navigateUp() }
+                        is AgendaDetailEvent.OnOpenEditor -> {
+                            navController.navigate("${Route.AGENDA_EDITOR}?id=${event.id}&title=${event.title}&body=${event.body}")
+                        }
                         else -> { Unit }
                     }
                     viewModel.onEvent(event)
+                },
+                agendaType = agendaType,
+                agendaOption = option?.let { AgendaOption.valueOf(it) }
+            )
+        }
+        composable(
+            route = Route.AGENDA_EDITOR + "?id={id}&title={title}&body={body}",
+            arguments = listOf(
+                navArgument("id") {
+                    type = NavType.StringType
+                    nullable = true
+                },
+                navArgument("title") {
+                    type = NavType.StringType
+                    nullable = true
+                },
+                navArgument("body") {
+                    type = NavType.StringType
+                    nullable = true
                 }
+            )
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
+            val title = backStackEntry.arguments?.getString("title")
+            val body = backStackEntry.arguments?.getString("body")
+            val viewModel = hiltViewModel<AgendaEditorViewModel>()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            AgendaEditorScreen(
+                state = state,
+                onEvent = { event ->
+                    when(event) {
+                        is AgendaEditorEvent.OnBack -> { navController.navigateUp() }
+                        else -> { Unit }
+                    }
+                    viewModel.onEvent(event)
+                },
+                id = id ?: "",
+                title = title ?: "",
+                body = body ?: ""
             )
         }
     }
