@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.R
+import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.agenda.enums.AgendaOption
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailColor
@@ -28,25 +29,21 @@ import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailNotificatio
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTimeSelector
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTitle
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
+import com.ddoczi.tasky.core.util.toLocalDateTime
 import com.ddoczi.tasky.ui.theme.Gray
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.Light
 import com.ddoczi.tasky.ui.theme.LightGreen
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Composable
 fun AgendaDetailScreen(
     state: AgendaDetailState,
     onEvent: (AgendaDetailEvent) -> Unit,
-    agendaType: AgendaType,
-    agendaOption: AgendaOption?
 ) {
     val editTitle = stringResource(id = R.string.edit_title)
     val editDesc = stringResource(id = R.string.edit_description)
-
-    LaunchedEffect(agendaType) {
-        onEvent(AgendaDetailEvent.OnInitScreen(agendaType, agendaOption))
-    }
 
     LaunchedEffect(key1 = state.shouldExit) {
         if (state.shouldExit) {
@@ -59,7 +56,7 @@ fun AgendaDetailScreen(
         contentWeight = 9f,
         header = {
             DetailHeader(
-                editingText = stringResource(R.string.edit_agenda, agendaType.name),
+                editingText = stringResource(R.string.edit_agenda, state.agendaType.name),
                 date = state.fromDate,
                 onClose = { onEvent(AgendaDetailEvent.OnClose) },
                 onEdit = { if (state.isEditable) onEvent(AgendaDetailEvent.OnEdit) },
@@ -75,8 +72,8 @@ fun AgendaDetailScreen(
             Column {
                 DetailColor(
                     modifier = Modifier.padding(16.dp),
-                    text = agendaType.name,
-                    color = when (agendaType) {
+                    text = state.agendaType.name,
+                    color = when (state.agendaType) {
                         AgendaType.TASK -> Green
                         AgendaType.REMINDER -> Gray
                         AgendaType.EVENT -> LightGreen
@@ -140,7 +137,7 @@ fun AgendaDetailScreen(
 //                    Ask if user is sure to delete
                     Text(
                         modifier = Modifier.clickable { onEvent(AgendaDetailEvent.OnDelete) },
-                        text = stringResource(R.string.delete_agenda, agendaType.name).uppercase(),
+                        text = stringResource(R.string.delete_agenda, state.agendaType.name).uppercase(),
                         color = Gray,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -161,8 +158,6 @@ fun AgendaDetailScreenPreview() {
             fromDate = LocalDate.now(),
             isEditing = true
         ),
-        onEvent = {},
-        agendaType = AgendaType.TASK,
-        agendaOption = AgendaOption.EDIT
+        onEvent = {}
     )
 }

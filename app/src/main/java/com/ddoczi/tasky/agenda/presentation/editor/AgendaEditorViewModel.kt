@@ -25,9 +25,6 @@ class AgendaEditorViewModel @Inject constructor() : ViewModel() {
             is AgendaEditorEvent.OnTextChange -> {
                 _state.update { it.copy(body = event.text) }
             }
-            is AgendaEditorEvent.OnSave -> {
-                // Save the body and the title
-            }
             else -> { Unit }
         }
     }

@@ -99,7 +99,6 @@ fun TaskyMainScreen(
                     when(event) {
                         is HomeEvent.OnLogOutConfirm -> { onLogout() }
                         is HomeEvent.OnRedirectToAgendaItem -> {
-                            //item id
                             val agendaType = when(event.agendaItem) {
                                 is AgendaItem.Event -> AgendaType.EVENT
                                 is AgendaItem.Task -> AgendaType.TASK
@@ -109,7 +108,7 @@ fun TaskyMainScreen(
                                 //Ask if user is sure to delete
                                 viewModel.onEvent(HomeEvent.OnDeleteItem(event.agendaItem))
                             } else {
-                                navController.navigate("${Route.AGENDA_DETAIL}/${agendaType}?option=${event.option}")
+                                navController.navigate("${Route.AGENDA_DETAIL}/${agendaType}?option=${event.option}?id=${event.agendaItem.agendaItemId}")
                             }
                         }
                         is HomeEvent.OnRedirectToAddAgendaItem -> {
@@ -122,13 +121,17 @@ fun TaskyMainScreen(
             )
         }
         composable(
-            route = Route.AGENDA_DETAIL + "/{agendaType}?option={option}",
+            route = Route.AGENDA_DETAIL + "/{agendaType}?option={option}?id={id}",
             arguments = listOf(
                 navArgument("agendaType") {
                     type = NavType.EnumType(AgendaType::class.java)
                     nullable = false
                 },
                 navArgument("option") {
+                    type = NavType.StringType
+                    nullable = true
+                },
+                navArgument("id") {
                     type = NavType.StringType
                     nullable = true
                 }
@@ -150,8 +153,8 @@ fun TaskyMainScreen(
                     }
                     viewModel.onEvent(event)
                 },
-                agendaType = agendaType,
-                agendaOption = option?.let { AgendaOption.valueOf(it) }
+//                agendaType = agendaType,
+//                agendaOption = option?.let { AgendaOption.valueOf(it) }
             )
         }
         composable(
@@ -171,6 +174,7 @@ fun TaskyMainScreen(
                 }
             )
         ) { backStackEntry ->
+//            All these params can be retrieved from SavedStateHandle in your VM
             val id = backStackEntry.arguments?.getString("id")
             val title = backStackEntry.arguments?.getString("title")
             val body = backStackEntry.arguments?.getString("body")
@@ -185,7 +189,6 @@ fun TaskyMainScreen(
                     }
                     viewModel.onEvent(event)
                 },
-                id = id ?: "",
                 title = title ?: "",
                 body = body ?: ""
             )

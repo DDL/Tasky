@@ -1,10 +1,12 @@
 package com.ddoczi.tasky.agenda.presentation.detail.agenda
 
+import com.ddoczi.tasky.agenda.domain.model.AgendaItem
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import java.time.LocalDate
 import java.time.LocalTime
 
 data class AgendaDetailState(
+    val agendaItem: AgendaItem? = null,
     val id: String = "",
     val title: String = "New Agenda",
     val description: String = "Description",

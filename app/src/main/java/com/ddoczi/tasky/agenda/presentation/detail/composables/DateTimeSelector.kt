@@ -92,7 +92,7 @@ fun DetailTimeSelector(
                     color = Black
                 )
             }
-            val dateFormatter = DateTimeFormatter.ofPattern("MMM dd uuuu")
+            val dateFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy")
             val formatted = date.format(dateFormatter)
             Text(
                 text = formatted,

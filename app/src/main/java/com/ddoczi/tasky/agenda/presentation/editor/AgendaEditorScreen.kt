@@ -35,10 +35,12 @@ import com.ddoczi.tasky.ui.theme.Green
 fun AgendaEditorScreen(
     state: AgendaEditorState,
     onEvent: (AgendaEditorEvent) -> Unit,
-    id: String,
     title: String,
     body: String
 ) {
+
+//    The ID shouldn't be necessary here. You can see this as a generic text field screen
+//    which returns the entered text to the previous screen once hit save
     LaunchedEffect(Unit) {
         onEvent(AgendaEditorEvent.OnLoad(title, body))
     }
@@ -64,7 +66,7 @@ fun AgendaEditorScreen(
                 fontWeight = FontWeight.SemiBold
             )
             TextButton(
-                onClick = { onEvent(AgendaEditorEvent.OnSave(id, state.title, state.body)) },
+                onClick = { onEvent(AgendaEditorEvent.OnSave(state.title, state.body)) },
                 colors = ButtonDefaults.textButtonColors(contentColor = Green)
             ) {
                 Text(text = stringResource(id = R.string.save).uppercase())
