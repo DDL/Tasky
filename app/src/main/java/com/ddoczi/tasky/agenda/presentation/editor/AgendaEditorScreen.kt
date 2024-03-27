@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,14 +34,7 @@ import com.ddoczi.tasky.ui.theme.Green
 fun AgendaEditorScreen(
     state: AgendaEditorState,
     onEvent: (AgendaEditorEvent) -> Unit,
-    id: String,
-    title: String,
-    body: String
 ) {
-    LaunchedEffect(Unit) {
-        onEvent(AgendaEditorEvent.OnLoad(title, body))
-    }
-
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
             modifier = Modifier
@@ -64,7 +56,7 @@ fun AgendaEditorScreen(
                 fontWeight = FontWeight.SemiBold
             )
             TextButton(
-                onClick = { onEvent(AgendaEditorEvent.OnSave(id, state.title, state.body)) },
+                onClick = { onEvent(AgendaEditorEvent.OnSave(state.title, state.body)) },
                 colors = ButtonDefaults.textButtonColors(contentColor = Green)
             ) {
                 Text(text = stringResource(id = R.string.save).uppercase())
