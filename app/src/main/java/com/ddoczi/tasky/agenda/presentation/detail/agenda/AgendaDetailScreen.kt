@@ -19,8 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ddoczi.tasky.R
-import com.ddoczi.tasky.agenda.domain.model.AgendaItem
-import com.ddoczi.tasky.agenda.enums.AgendaOption
 import com.ddoczi.tasky.agenda.enums.AgendaType
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailColor
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailDescription
@@ -29,13 +27,11 @@ import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailNotificatio
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTimeSelector
 import com.ddoczi.tasky.agenda.presentation.detail.composables.DetailTitle
 import com.ddoczi.tasky.core.presentation.composables.TaskyBackground
-import com.ddoczi.tasky.core.util.toLocalDateTime
 import com.ddoczi.tasky.ui.theme.Gray
 import com.ddoczi.tasky.ui.theme.Green
 import com.ddoczi.tasky.ui.theme.Light
 import com.ddoczi.tasky.ui.theme.LightGreen
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Composable
 fun AgendaDetailScreen(
@@ -81,14 +77,13 @@ fun AgendaDetailScreen(
                 )
                 DetailTitle(
                     modifier = Modifier.padding(start = 16.dp),
-                    title = state.title,
+                    title = state.agendaItem?.title ?: editTitle,
                     isEditable = state.isEditing,
                     onClick = {
                         onEvent(
                             AgendaDetailEvent.OnOpenEditor(
-                                state.id,
-                                editTitle,
-                                state.title
+                                state.agendaItem?.title ?: editTitle,
+                                state.agendaItem?.description ?: editDesc
                             )
                         )
                     }
@@ -96,14 +91,13 @@ fun AgendaDetailScreen(
                 Divider(color = Light)
                 DetailDescription(
                     modifier = Modifier.padding(start = 16.dp),
-                    description = state.description,
+                    description = state.agendaItem?.description ?: editDesc,
                     isEditable = state.isEditing,
                     onClick = {
                         onEvent(
                             AgendaDetailEvent.OnOpenEditor(
-                                state.id,
-                                editDesc,
-                                state.description
+                                state.agendaItem?.title ?: editTitle,
+                                state.agendaItem?.description ?: editDesc
                             )
                         )
                     }
@@ -153,8 +147,6 @@ fun AgendaDetailScreen(
 fun AgendaDetailScreenPreview() {
     AgendaDetailScreen(
         state = AgendaDetailState(
-            title = "Title",
-            description = "Description",
             fromDate = LocalDate.now(),
             isEditing = true
         ),

@@ -147,23 +147,17 @@ fun TaskyMainScreen(
                     when(event) {
                         is AgendaDetailEvent.OnClose -> { navController.navigateUp() }
                         is AgendaDetailEvent.OnOpenEditor -> {
-                            navController.navigate("${Route.AGENDA_EDITOR}?id=${event.id}&title=${event.title}&body=${event.body}")
+                            navController.navigate("${Route.AGENDA_EDITOR}?title=${event.title}&body=${event.body}")
                         }
                         else -> { Unit }
                     }
                     viewModel.onEvent(event)
                 },
-//                agendaType = agendaType,
-//                agendaOption = option?.let { AgendaOption.valueOf(it) }
             )
         }
         composable(
-            route = Route.AGENDA_EDITOR + "?id={id}&title={title}&body={body}",
+            route = Route.AGENDA_EDITOR + "?title={title}&body={body}",
             arguments = listOf(
-                navArgument("id") {
-                    type = NavType.StringType
-                    nullable = true
-                },
                 navArgument("title") {
                     type = NavType.StringType
                     nullable = true
@@ -185,6 +179,7 @@ fun TaskyMainScreen(
                 onEvent = { event ->
                     when(event) {
                         is AgendaEditorEvent.OnBack -> { navController.navigateUp() }
+                        is AgendaEditorEvent.OnSave -> { navController.navigateUp() }
                         else -> { Unit }
                     }
                     viewModel.onEvent(event)

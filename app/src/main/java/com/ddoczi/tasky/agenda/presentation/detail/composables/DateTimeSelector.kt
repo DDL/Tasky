@@ -75,13 +75,9 @@ fun DetailTimeSelector(
         ) {
             Text(text = text, fontSize = 16.sp, color = Black)
             Row(
-                modifier = Modifier.then(
-                    if (isEditable) {
-                        Modifier.clickable {
-                            timepickerState.show()
-                        }
-                    } else Modifier
-                ).padding(start = 10.dp, end = 10.dp),
+                modifier = Modifier
+                    .clickable(isEditable) { timepickerState.show() }
+                    .padding(start = 10.dp, end = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
@@ -98,13 +94,9 @@ fun DetailTimeSelector(
                 text = formatted,
                 fontSize = 16.sp,
                 color = Black,
-                modifier = Modifier.then(
-                    if (isEditable) {
-                        Modifier.clickable {
-                            datepickerState.show()
-                        }
-                    } else Modifier
-                ).padding(start = 10.dp, end = 10.dp)
+                modifier = Modifier
+                    .clickable(isEditable) { datepickerState.show() }
+                    .padding(start = 10.dp, end = 10.dp)
             )
         }
     }

@@ -19,7 +19,7 @@ sealed class AgendaDetailEvent {
     data class OnReminderTypeSelect(val reminderType: String) : AgendaDetailEvent()
     data class OnUpdatedInformation(val title: String, val description: String) : AgendaDetailEvent()
     data class OnInitScreen(val agendaType: AgendaType, val agendaOption: AgendaOption?) : AgendaDetailEvent()
-    data class OnOpenEditor(val id: String, val title: String, val body: String) : AgendaDetailEvent()
+    data class OnOpenEditor(val title: String, val body: String) : AgendaDetailEvent()
 }
 
 
