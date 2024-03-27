@@ -137,8 +137,6 @@ fun TaskyMainScreen(
                 }
             )
         ) { backStackEntry ->
-            val agendaType = backStackEntry.arguments?.get("agendaType") as AgendaType
-            val option = backStackEntry.arguments?.getString("option")
             val viewModel = hiltViewModel<AgendaDetailViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             AgendaDetailScreen(
@@ -168,10 +166,6 @@ fun TaskyMainScreen(
                 }
             )
         ) { backStackEntry ->
-//            All these params can be retrieved from SavedStateHandle in your VM
-            val id = backStackEntry.arguments?.getString("id")
-            val title = backStackEntry.arguments?.getString("title")
-            val body = backStackEntry.arguments?.getString("body")
             val viewModel = hiltViewModel<AgendaEditorViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
             AgendaEditorScreen(
@@ -184,8 +178,6 @@ fun TaskyMainScreen(
                     }
                     viewModel.onEvent(event)
                 },
-                title = title ?: "",
-                body = body ?: ""
             )
         }
     }

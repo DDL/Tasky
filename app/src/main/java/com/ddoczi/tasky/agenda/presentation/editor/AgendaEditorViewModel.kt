@@ -19,7 +19,7 @@ class AgendaEditorViewModel @Inject constructor(
         _state.update {
             it.copy(
                 savedStateHandle.get("title") ?: "",
-                savedStateHandle.get("decription") ?: ""
+                savedStateHandle.get("body") ?: ""
             )
         }
     }

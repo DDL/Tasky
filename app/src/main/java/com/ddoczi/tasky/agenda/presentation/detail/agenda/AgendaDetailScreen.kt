@@ -77,13 +77,13 @@ fun AgendaDetailScreen(
                 )
                 DetailTitle(
                     modifier = Modifier.padding(start = 16.dp),
-                    title = state.agendaItem?.title ?: editTitle,
+                    title = state.agendaItem?.title ?: "",
                     isEditable = state.isEditing,
                     onClick = {
                         onEvent(
                             AgendaDetailEvent.OnOpenEditor(
-                                state.agendaItem?.title ?: editTitle,
-                                state.agendaItem?.description ?: editDesc
+                                editTitle,
+                                state.agendaItem?.title ?: ""
                             )
                         )
                     }
@@ -91,13 +91,13 @@ fun AgendaDetailScreen(
                 Divider(color = Light)
                 DetailDescription(
                     modifier = Modifier.padding(start = 16.dp),
-                    description = state.agendaItem?.description ?: editDesc,
+                    description = state.agendaItem?.description ?: "",
                     isEditable = state.isEditing,
                     onClick = {
                         onEvent(
                             AgendaDetailEvent.OnOpenEditor(
-                                state.agendaItem?.title ?: editTitle,
-                                state.agendaItem?.description ?: editDesc
+                                editDesc,
+                                state.agendaItem?.description ?: ""
                             )
                         )
                     }

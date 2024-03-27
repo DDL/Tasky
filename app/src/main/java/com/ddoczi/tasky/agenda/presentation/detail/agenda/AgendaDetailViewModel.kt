@@ -29,9 +29,6 @@ class AgendaDetailViewModel @Inject constructor(
     private val _state = MutableStateFlow(AgendaDetailState())
     val state = _state.asStateFlow()
 
-    private val defaultTitle = "New Agenda"
-    private val defaultDescription = "Description"
-
     private fun itemAsTask(): AgendaItem.Task? {
         return state.value.agendaItem as? AgendaItem.Task
     }
@@ -57,8 +54,8 @@ class AgendaDetailViewModel @Inject constructor(
                         it.copy(
                             agendaItem = AgendaItem.Event(
                                 eventId = event?.eventId  ?: UUID.randomUUID().toString(),
-                                eventTitle = event?.eventTitle ?: defaultTitle,
-                                eventDescription = event?.eventDescription ?: defaultDescription,
+                                eventTitle = event?.eventTitle ?: state.value.title,
+                                eventDescription = event?.eventDescription ?: state.value.description,
                                 eventFromDate = event?.eventFromDate ?: LocalDateTime.now(),
                                 eventToDate = event?.eventToDate ?: LocalDateTime.now(),
                                 eventRemindAt = event?.eventRemindAt ?: LocalDateTime.now()
@@ -73,8 +70,8 @@ class AgendaDetailViewModel @Inject constructor(
                         it.copy(
                             agendaItem = AgendaItem.Task(
                                 taskId = task?.taskId ?: UUID.randomUUID().toString(),
-                                taskTitle = task?.taskTitle ?: defaultTitle,
-                                taskDescription = task?.taskDescription ?: defaultDescription,
+                                taskTitle = task?.taskTitle ?: state.value.title,
+                                taskDescription = task?.taskDescription ?: state.value.description,
                                 taskDate = task?.taskDate ?: LocalDateTime.now(),
                                 taskRemindAt = task?.taskRemindAt ?: LocalDateTime.now(),
                                 isDone = task?.isDone ?: false
@@ -88,8 +85,8 @@ class AgendaDetailViewModel @Inject constructor(
                     it.copy(
                         agendaItem = AgendaItem.Reminder(
                             reminderId = reminder?.reminderId ?: UUID.randomUUID().toString(),
-                            reminderTitle = reminder?.reminderTitle ?: defaultTitle,
-                            reminderDescription = reminder?.reminderDescription ?: defaultDescription,
+                            reminderTitle = reminder?.reminderTitle ?: state.value.title,
+                            reminderDescription = reminder?.reminderDescription ?: state.value.description,
                             reminderDate = reminder?.reminderDate ?: LocalDateTime.now(),
                             reminderRemindAt = reminder?.reminderRemindAt ?: LocalDateTime.now()
                         )
